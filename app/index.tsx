@@ -60,6 +60,6 @@ fontSize: 18,
 fontWeight: "400",
 fontStyle: "normal",
 textAlign: "center",
-color: COLORS.link
+color: COLORS.link,
   }
 });

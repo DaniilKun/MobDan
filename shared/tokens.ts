@@ -5,14 +5,14 @@ export const COLORS = {
   primaryHover: '#452481',
   link: '#A97BFF',
   grey:'#AFB2BF',
-  white:'#fff'
+  white:'#fff',
 }
 
 export const GAPS = {
   g16:16,
-  g50:50
+  g50:50,
 }
 
 export const RADIUS = {
-  r10:10
+  r10:10,
 }
