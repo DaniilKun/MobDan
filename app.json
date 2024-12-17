@@ -1,20 +1,26 @@
 {
   "expo": {
-    "name": "purpleSchool",
-    "slug": "purpleSchool",
+    "name": "mobdan",
+    "slug": "mobdan",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/logo.png",
+    "scheme": "mobdan",
     "userInterfaceStyle": "automatic",
+    "backgroundColor":"#16171D",
+    "splash": {
+      "image":"./assets/images/logo.png",
+      "resizeMode":"contain",
+      "backgroundColor":"#16171D"
+    },
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#16171D"
       }
     },
     "web": {
@@ -23,16 +29,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
