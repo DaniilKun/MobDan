@@ -7,6 +7,7 @@ export const COLORS = {
 	grey: '#AFB2BF',
 	white: '#fff',
 	red: '#CC384E',
+	green: 'green',
 };
 
 export const GAPS = {
@@ -21,4 +22,7 @@ export const RADIUS = {
 export const FONTS = {
 	f16: 16,
 	f18: 18,
+	f24: 24,
+	regular: 'FiraSans',
+	semibold: 'FiraSansSemiBold',
 };

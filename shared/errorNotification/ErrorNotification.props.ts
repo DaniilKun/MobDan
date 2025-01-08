@@ -1,3 +1,3 @@
 export interface ErrorNotificationProps {
-	error?: string;
+	error?: string | null;
 }
