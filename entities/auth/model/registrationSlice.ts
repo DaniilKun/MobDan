@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import axiosInstance, { AxiosError } from 'axios';
 import { IRegistrationRequest, IRegistrationResponse, RegistrationState } from './auth.model';
-import { API } from '@/entities/auth/api/api';
+import { API } from '@/api/api';
+// import axiosInstance from '@/api/axiosInstance';
 
 // Начальное состояние
 const initialState: RegistrationState = {
@@ -10,24 +11,18 @@ const initialState: RegistrationState = {
 	error: null,
 };
 
+// ✅ Асинхронный thunk для регистрации
 export const registration = createAsyncThunk<IRegistrationResponse, IRegistrationRequest>(
-	'auth',
+	'auth/registration',
 	async ({ username, password, email }, { rejectWithValue }) => {
 		try {
-			const { data } = await axios.post<IRegistrationResponse>(
-				API.registration,
-				{
-					username,
-					password,
-					email,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						Accept: 'application/json',
-					},
-				},
-			);
+			// Используем отдельный запрос axios без токена
+			const { data } = await axiosInstance.post<IRegistrationResponse>(API.registration, {
+				username,
+				password,
+				email,
+			});
+
 			return data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
@@ -38,7 +33,7 @@ export const registration = createAsyncThunk<IRegistrationResponse, IRegistratio
 	},
 );
 
-// Создаём Slice
+// ✅ Создаем Slice
 const registrationSlice = createSlice({
 	name: 'registration',
 	initialState,

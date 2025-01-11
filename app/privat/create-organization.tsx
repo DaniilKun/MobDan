@@ -1,10 +1,13 @@
 import { useAuthCheck } from '@/hooks/useAuthCheck';
 import { COLORS, FONTS, GAPS } from '@/shared/tokens';
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Input from '@/shared/input/Input';
 import Button from '@/shared/button/Button';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/store/store';
+import { createOrganization } from '@/entities/user/model/userSlice';
 
 interface OrganizationForm {
 	name: string;
@@ -14,6 +17,12 @@ export default function CreateOrganizationPage() {
 	// Проверка авторизации
 	useAuthCheck();
 
+	// Используем Redux Dispatch
+	const dispatch = useDispatch<AppDispatch>();
+
+	// Локальное состояние загрузки
+	const [isLoading, setIsLoading] = useState(false);
+
 	// Инициализация формы
 	const { control, handleSubmit, reset } = useForm<OrganizationForm>({
 		defaultValues: {
@@ -22,9 +31,19 @@ export default function CreateOrganizationPage() {
 	});
 
 	// Обработка отправки формы
-	const onSubmit: SubmitHandler<OrganizationForm> = (data) => {
-		console.log('✅ Организация создана:', data);
-		reset(); // Сброс формы после успешного создания
+	const onSubmit: SubmitHandler<OrganizationForm> = async (data) => {
+		setIsLoading(true);
+		try {
+			await dispatch(createOrganization(data)).unwrap();
+			Alert.alert('Успех!', 'Организация успешно создана.');
+			reset();
+		} catch (err) {
+			const errorMessage =
+				(err as { message?: string }).message || 'Не удалось создать организацию.';
+			Alert.alert('Ошибка!', errorMessage);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -41,7 +60,11 @@ export default function CreateOrganizationPage() {
 					control={control}
 					rules={{ required: 'Название обязательно' }}
 				/>
-				<Button text="Создать организацию" onPress={handleSubmit(onSubmit)} />
+				{isLoading ? (
+					<ActivityIndicator size="large" color={COLORS.primary} />
+				) : (
+					<Button text="Создать организацию" onPress={handleSubmit(onSubmit)} />
+				)}
 			</View>
 		</View>
 	);

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance, { AxiosError } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthState, IAuthResponse, ILoginRequest } from './auth.model';
-import { API } from '../api/api';
+import { API } from '@/api/api';
 
 const TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';

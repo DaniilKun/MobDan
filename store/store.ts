@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer, { loadToken } from '@/entities/auth/model/authSlice';
-import profileReducer from '@/entities/user/model/userSlice';
+import userReducer from '@/entities/user/model/userSlice';
 import registrationReducer from '@/entities/auth/model/registrationSlice';
 
 const store = configureStore({
 	reducer: {
 		auth: authReducer,
-		profile: profileReducer,
+		user: userReducer,
 		registration: registrationReducer,
 	},
 });

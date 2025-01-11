@@ -3,7 +3,7 @@ import { PREFIX } from './api';
 import store from '@/store/store';
 import { refreshToken } from '@/entities/auth/model/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { IAuthResponse } from '@/entities/auth/model/auth.model'; // ✅ Импорт типа
+import { IAuthResponse } from '@/entities/auth/model/auth.model';
 
 const axiosInstance = axios.create({
 	baseURL: PREFIX,
@@ -15,20 +15,18 @@ const axiosInstance = axios.create({
 // ✅ Интерсептор для добавления токена в каждый запрос
 axiosInstance.interceptors.request.use(
 	async (config) => {
-		const state = store.getState();
-		let token = state.auth.access_token;
+		let token: string | null = store.getState().auth.access_token;
 
-		// Если токен отсутствует в Redux, пробуем получить его из AsyncStorage
+		// Если токена нет в Redux, берем из AsyncStorage
 		if (!token) {
 			token = await AsyncStorage.getItem('access_token');
 		}
 
-		console.log('🔍 Используем токен для запроса:', token);
-
-		if (token) {
+		if (token && config.headers) {
 			config.headers.Authorization = `Bearer ${token}`;
 		}
 
+		console.log('🔍 Используем токен для запроса:', token);
 		return config;
 	},
 	(error) => Promise.reject(error),
@@ -45,15 +43,18 @@ axiosInstance.interceptors.response.use(
 			originalRequest._retry = true;
 
 			try {
-				// ✅ Типизируем результат вызова refreshToken
+				// ✅ Запрашиваем новый токен
 				const result = (await store.dispatch(refreshToken())) as { payload: IAuthResponse };
 
 				if (result.payload?.access) {
-					// Обновляем заголовки с новым токеном
-					axiosInstance.defaults.headers['Authorization'] = `Bearer ${result.payload.access}`;
-					return axiosInstance(originalRequest); // Повторяем оригинальный запрос
+					// ✅ Обновляем токен в заголовках оригинального запроса
+					originalRequest.headers['Authorization'] = `Bearer ${result.payload.access}`;
+
+					// ✅ Повторяем запрос с новым токеном
+					return axiosInstance(originalRequest);
 				}
 			} catch (refreshError) {
+				console.error('❌ Ошибка обновления токена:', refreshError);
 				return Promise.reject(refreshError);
 			}
 		}
