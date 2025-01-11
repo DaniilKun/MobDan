@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { Organization, UserState } from './user.model';
+import { Organization, UserState } from './organization.model';
 import { API } from '@/api/api';
 import axiosInstance from '@/api/axiosInstance'; // ✅ Правильный импорт axiosInstance
 import axios from 'axios';

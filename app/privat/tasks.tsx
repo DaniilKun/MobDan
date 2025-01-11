@@ -1,47 +1,66 @@
+// components/TasksPage.tsx
 import { COLORS, GAPS, FONTS } from '@/shared/tokens';
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+	Text,
+	View,
+	StyleSheet,
+	FlatList,
+	TouchableOpacity,
+	ActivityIndicator,
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store/store';
+import { fetchTasks } from '@/entities/tasks/tasksSlice';
+import AddTaskModal from './add-task-modal';
+import TaskItem from './task-item';
 
 export default function TasksPage() {
-	const [tasks, setTasks] = useState<string[]>([]);
-	const [taskName, setTaskName] = useState('');
+	const dispatch = useDispatch<AppDispatch>();
+	const { tasks, isLoading } = useSelector((state: RootState) => state.tasks);
 
-	// Добавление новой задачи
-	const addTask = () => {
-		if (taskName.trim()) {
-			setTasks((prevTasks) => [...prevTasks, taskName.trim()]);
-			setTaskName('');
-		}
-	};
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	// ✅ Загружаем список задач при первом рендере
+	useEffect(() => {
+		dispatch(fetchTasks());
+	}, [dispatch]);
+
+	// ✅ Показываем лоадер, если идет загрузка задач
+	if (isLoading) {
+		return (
+			<View style={styles.loaderContainer}>
+				<ActivityIndicator size="large" color={COLORS.primary} />
+				<Text style={styles.loaderText}>Загрузка задач...</Text>
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.container}>
+			{/* Кнопка для открытия модального окна */}
+			<TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.addButton}>
+				<Text style={styles.addButtonText}>Создать задачу</Text>
+			</TouchableOpacity>
 			<Text style={styles.title}>Ваши задачи</Text>
 
-			{/* Форма создания задачи */}
-			<View style={styles.form}>
-				<TextInput
-					placeholder="Название задачи"
-					value={taskName}
-					onChangeText={setTaskName}
-					style={styles.input}
-					placeholderTextColor={COLORS.grey}
-				/>
-				<TouchableOpacity onPress={addTask} style={styles.button}>
-					<Text style={styles.buttonText}>Добавить</Text>
-				</TouchableOpacity>
-			</View>
 			{/* Список задач */}
 			<FlatList
 				data={tasks}
-				keyExtractor={(item, index) => index.toString()}
+				keyExtractor={(item) => item.id.toString()}
 				renderItem={({ item }) => (
-					<View style={styles.taskItem}>
-						<Text style={styles.taskText}>{item}</Text>
-					</View>
+					<TaskItem
+						statusId={item.status_task}
+						id={item.id}
+						title={item.title}
+						description={item.description}
+					/>
 				)}
 				ListEmptyComponent={<Text style={styles.emptyText}>Задач пока нет. Создайте первую!</Text>}
 			/>
+
+			{/* Модальное окно */}
+			<AddTaskModal visible={isModalVisible} onClose={() => setIsModalVisible(false)} />
 		</View>
 	);
 }
@@ -57,51 +76,37 @@ const styles = StyleSheet.create({
 		fontSize: FONTS.f24,
 		fontFamily: FONTS.semibold,
 		textAlign: 'center',
-		marginTop: GAPS.g16,
 		marginBottom: GAPS.g16,
 	},
-	taskItem: {
-		backgroundColor: COLORS.violetDark,
-		padding: GAPS.g16,
+	addButton: {
+		backgroundColor: COLORS.primary,
+		paddingVertical: GAPS.g16,
 		borderRadius: GAPS.g16,
+		alignItems: 'center',
 		marginBottom: GAPS.g16,
 	},
-	taskText: {
+	addButtonText: {
 		color: COLORS.white,
-		fontSize: FONTS.f18,
-		fontFamily: FONTS.regular,
+		fontSize: FONTS.f16,
+		fontFamily: FONTS.semibold,
 	},
 	emptyText: {
 		color: COLORS.grey,
 		fontSize: FONTS.f16,
 		fontFamily: FONTS.regular,
 		textAlign: 'center',
-		marginTop: GAPS.g50,
-	},
-	form: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: GAPS.g16,
 		marginTop: GAPS.g16,
 	},
-	input: {
+	loaderContainer: {
 		flex: 1,
-		height: 50,
-		backgroundColor: COLORS.violetDark,
-		borderRadius: GAPS.g16,
-		paddingHorizontal: GAPS.g16,
-		color: COLORS.white,
-		fontFamily: FONTS.regular,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: COLORS.black,
 	},
-	button: {
-		backgroundColor: COLORS.primary,
-		paddingHorizontal: GAPS.g16,
-		paddingVertical: GAPS.g16,
-		borderRadius: GAPS.g16,
-	},
-	buttonText: {
+	loaderText: {
 		color: COLORS.white,
 		fontSize: FONTS.f16,
-		fontFamily: FONTS.semibold,
+		fontFamily: FONTS.regular,
+		marginTop: GAPS.g16,
 	},
 });

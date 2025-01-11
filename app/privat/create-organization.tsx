@@ -7,7 +7,7 @@ import Input from '@/shared/input/Input';
 import Button from '@/shared/button/Button';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store/store';
-import { createOrganization } from '@/entities/user/model/userSlice';
+import { createOrganization } from '@/entities/organization/model/organizationSlice';
 
 interface OrganizationForm {
 	name: string;

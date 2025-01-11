@@ -11,7 +11,7 @@ export default function UnmatchedCustom() {
 				<Text style={styles.logoTxt}>
 					Ооо... что-то пошло не так. Попробуйте вернуться на главный экран приложения
 				</Text>
-				<CustomLink href={'/'} text="На главный экран" />
+				<CustomLink href={'/privat'} text="На главный экран" />
 				<CustomLink href={'/login'} text="Login" />
 			</View>
 		</SafeAreaView>

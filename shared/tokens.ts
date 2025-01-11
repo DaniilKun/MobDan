@@ -7,10 +7,16 @@ export const COLORS = {
 	grey: '#AFB2BF',
 	white: '#fff',
 	red: '#CC384E',
-	green: 'green',
+	green: '#00FF00',
+	yellow: '#FFFF00',
+	orange: '#FFA500',
+	Aqua: '#00FFFF',
+	backFon: 'rgba(0, 0, 0, 0.7)',
 };
 
 export const GAPS = {
+	g4: 4,
+	g8: 8,
 	g16: 16,
 	g50: 50,
 };

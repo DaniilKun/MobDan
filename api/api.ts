@@ -6,4 +6,11 @@ export const API = {
 	refresh: `${PREFIX}/auth/token/refresh/`,
 	create_organization: `${PREFIX}/organizations/create/`,
 	list_organization: `${PREFIX}/organizations/list/`,
+	list_tasks: `${PREFIX}/tasks/list/`,
+	create_tasks: `${PREFIX}/tasks/create/`,
+	status_tasks: `${PREFIX}/tasks/status/`,
+	user_me: `${PREFIX}/user/me/`,
+
+	// ✅ Динамический URL для удаления задачи
+	delete_task: (id: number) => `${PREFIX}/tasks/${id}/delete/`,
 };

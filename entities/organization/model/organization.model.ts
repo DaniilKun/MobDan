@@ -4,7 +4,7 @@ export interface UserState {
 	error: string | null;
 }
 export interface Organization {
-	id: string | null;
+	id: number;
 	name: string | null;
 	created_at: string | null;
 }

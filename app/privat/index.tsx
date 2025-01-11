@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store/store';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
-import { fetchOrganization } from '@/entities/user/model/userSlice';
+import { fetchOrganization } from '@/entities/organization/model/organizationSlice';
 
 export default function HomePage() {
 	// Проверка авторизации
