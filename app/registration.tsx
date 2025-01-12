@@ -27,17 +27,16 @@ const Registration = () => {
 		},
 	});
 
-	// Обработка отправки формы
-	const onSubmit: SubmitHandler<RegistrationForm> = (data) => {
-		dispatch(registration(data))
-			.unwrap()
-			.then((res) => {
-				console.log('✅ Регистрация успешна:', res);
-				reset(); // Сброс формы после успешной регистрации
-			})
-			.catch((err) => {
-				console.error('❌ Ошибка регистрации:', err);
-			});
+	// ✅ Обработка отправки формы
+	const onSubmit: SubmitHandler<RegistrationForm> = async (data) => {
+		try {
+			console.log('📤 Отправка данных формы:', data);
+			const response = await dispatch(registration(data)).unwrap();
+			console.log('✅ Регистрация успешна:', response);
+			reset(); // Сброс формы
+		} catch (error) {
+			console.error('❌ Ошибка регистрации:', error);
+		}
 	};
 
 	return (

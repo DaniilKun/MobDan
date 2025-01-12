@@ -26,6 +26,7 @@ export default function HomePage() {
 			})
 			.catch((err) => {
 				console.error('❌ Ошибка получения организации:', err);
+				router.replace('/login');
 			});
 	}, [dispatch, router]);
 

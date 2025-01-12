@@ -1,22 +1,23 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
-import { useRouter, Slot } from 'expo-router';
+import { useRouter, Slot, useSegments } from 'expo-router';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from 'react-native';
-import { logout } from '@/entities/auth/model/authSlice';
-import { COLORS, FONTS, GAPS, RADIUS } from '@/shared/tokens';
+import { COLORS, FONTS, GAPS } from '@/shared/tokens';
 import { fetchStatuses } from '@/entities/status/statusSlice';
+import { fetchUser } from '@/entities/user/userSlice';
 
 export default function AuthLayout() {
 	const router = useRouter();
+	const segments = useSegments();
 	const dispatch = useDispatch<AppDispatch>();
 
 	const access_token = useSelector((state: RootState) => state.auth.access_token);
 	const username = useSelector((state: RootState) => state.user.user?.username);
 	const { isLoading } = useSelector((state: RootState) => state.organization);
 
-	// Если токен отсутствует, перенаправляем на страницу логина
-	React.useEffect(() => {
+	// ✅ Если токен отсутствует, перенаправляем на страницу логина
+	useEffect(() => {
 		if (!access_token) {
 			router.replace('/login');
 		}
@@ -25,13 +26,16 @@ export default function AuthLayout() {
 	// ✅ Загружаем статусы задач при первом рендере
 	useEffect(() => {
 		dispatch(fetchStatuses());
+		dispatch(fetchUser());
 	}, [dispatch]);
 
-	// Обработка выхода из учетной записи
-	const handleLogout = () => {
-		dispatch(logout());
-		router.replace('/login');
+	// ✅ Обработчик перехода на страницу профиля
+	const handleProfilePress = () => {
+		router.push('/privat/profile');
 	};
+
+	// ✅ Проверяем текущий маршрут и скрываем хедер на странице профиля
+	const isProfilePage = segments.join('/') === 'privat/profile';
 
 	// ✅ Если идет загрузка организации, показываем лоадер
 	if (isLoading) {
@@ -55,26 +59,19 @@ export default function AuthLayout() {
 	return (
 		<View style={styles.container}>
 			{/* Хедер с названием организации и кнопкой выхода */}
-			<View style={styles.header}>
-				<View style={styles.profile}>
-					{/* ✅ Иконка профиля */}
-					<Image
-						source={require('@/assets/images/Profile.png')} // Замените путь на вашу картинку
-						style={styles.profileIcon}
-					/>
-					{/* Название организации */}
-					{username ? (
-						<Text style={styles.profileText}>{username}</Text>
-					) : (
-						<Text style={styles.profileText}>User не найден</Text>
-					)}
+			{!isProfilePage && (
+				<View style={styles.header}>
+					{/* ✅ Добавляем TouchableOpacity вокруг иконки профиля */}
+					<TouchableOpacity onPress={handleProfilePress} style={styles.profile}>
+						<Image source={require('@/assets/images/Profile.png')} style={styles.profileIcon} />
+						{username ? (
+							<Text style={styles.profileText}>{username}</Text>
+						) : (
+							<Text style={styles.profileText}>User не найден</Text>
+						)}
+					</TouchableOpacity>
 				</View>
-
-				{/* Кнопка выхода */}
-				<TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-					<Text style={styles.logoutButtonText}>Выйти</Text>
-				</TouchableOpacity>
-			</View>
+			)}
 
 			{/* Основное содержимое */}
 			<Slot />
@@ -121,18 +118,5 @@ const styles = StyleSheet.create({
 		fontSize: FONTS.f18,
 		fontFamily: FONTS.semibold,
 		textAlign: 'center',
-	},
-	logoutButton: {
-		position: 'absolute',
-		right: GAPS.g16,
-		backgroundColor: COLORS.red,
-		paddingHorizontal: GAPS.g16,
-		paddingVertical: GAPS.g16,
-		borderRadius: RADIUS.r10,
-	},
-	logoutButtonText: {
-		color: COLORS.white,
-		fontSize: FONTS.f16,
-		fontFamily: FONTS.semibold,
 	},
 });

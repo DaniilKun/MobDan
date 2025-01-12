@@ -10,6 +10,7 @@ export const API = {
 	create_tasks: `${PREFIX}/tasks/create/`,
 	status_tasks: `${PREFIX}/tasks/status/`,
 	user_me: `${PREFIX}/user/me/`,
+	delete_user_me: `${PREFIX}/user/me/delete/`,
 
 	// ✅ Динамический URL для удаления задачи
 	delete_task: (id: number) => `${PREFIX}/tasks/${id}/delete/`,
