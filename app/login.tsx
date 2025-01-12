@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { login } from '@/entities/auth/model/authSlice';
 import { useRouter } from 'expo-router';
+import React from 'react';
 
 const Login = () => {
 	const dispatch = useDispatch<AppDispatch>();

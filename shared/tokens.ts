@@ -11,6 +11,7 @@ export const COLORS = {
 	yellow: '#FFFF00',
 	orange: '#FFA500',
 	Aqua: '#00FFFF',
+	blue: 'blue',
 	backFon: 'rgba(0, 0, 0, 0.7)',
 };
 

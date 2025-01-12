@@ -19,7 +19,7 @@ const Input = <T extends FieldValues>({
 	rules,
 	...props
 }: InputProps<T>) => {
-	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(true);
+	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
 	return (
 		<Controller
