@@ -13,4 +13,5 @@ export const API = {
 
 	// ✅ Динамический URL для удаления задачи
 	delete_task: (id: number) => `${PREFIX}/tasks/${id}/delete/`,
+	update_task: (id: number) => `${PREFIX}/tasks/${id}/edit/`,
 };

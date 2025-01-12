@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axiosInstance from '@/api/axiosInstance';
 import { API } from '@/api/api';
-import { Task, TaskCreationPayload, TasksState } from './tasks.model';
+import { Task, TaskCreationPayload, TasksState, TaskUpdate } from './tasks.model';
 import { AxiosError } from 'axios';
 
 // Начальное состояние
@@ -17,7 +17,7 @@ export const createTask = createAsyncThunk<Task, TaskCreationPayload, { rejectVa
 	async (taskData, { rejectWithValue }) => {
 		try {
 			const response = await axiosInstance.post(API.create_tasks, taskData);
-			return response.data; // Возвращаем созданную задачу
+			return response.data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				return rejectWithValue(error.response?.data?.message || 'Ошибка создания задачи');
@@ -33,7 +33,7 @@ export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: string }
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axiosInstance.get(API.list_tasks);
-			return response.data; // Возвращаем список задач
+			return response.data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				return rejectWithValue(error.response?.data?.message || 'Ошибка получения задач');
@@ -48,7 +48,7 @@ export const deleteTask = createAsyncThunk<void, number, { rejectValue: string }
 	'tasks/deleteTask',
 	async (id, { rejectWithValue }) => {
 		try {
-			await axiosInstance.delete(API.delete_task(id)); // Используем функцию delete_task с taskId
+			await axiosInstance.delete(API.delete_task(id));
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				return rejectWithValue(error.response?.data?.message || 'Ошибка удаления задачи');
@@ -57,6 +57,23 @@ export const deleteTask = createAsyncThunk<void, number, { rejectValue: string }
 		}
 	},
 );
+
+// ✅ Thunk для редактирования задачи
+export const updateTask = createAsyncThunk<
+	Task,
+	{ id: number; taskData: Partial<TaskUpdate> },
+	{ rejectValue: string }
+>('tasks/updateTask', async ({ id, taskData }, { rejectWithValue }) => {
+	try {
+		const response = await axiosInstance.put(API.update_task(id), taskData);
+		return response.data;
+	} catch (error) {
+		if (error instanceof AxiosError) {
+			return rejectWithValue(error.response?.data?.message || 'Ошибка обновления задачи');
+		}
+		throw error;
+	}
+});
 
 // ✅ Создаем slice
 const tasksSlice = createSlice({
@@ -82,6 +99,7 @@ const tasksSlice = createSlice({
 				state.isLoading = false;
 				state.error = action.payload ?? 'Неизвестная ошибка';
 			})
+
 			// ✅ Обработка получения списка задач
 			.addCase(fetchTasks.pending, (state) => {
 				state.isLoading = true;
@@ -95,6 +113,7 @@ const tasksSlice = createSlice({
 				state.isLoading = false;
 				state.error = action.payload ?? 'Неизвестная ошибка';
 			})
+
 			// ✅ Обработка удаления задачи
 			.addCase(deleteTask.pending, (state) => {
 				state.isLoading = true;
@@ -102,10 +121,26 @@ const tasksSlice = createSlice({
 			})
 			.addCase(deleteTask.fulfilled, (state, action) => {
 				state.isLoading = false;
-				// Удаляем задачу из списка по её ID
 				state.tasks = state.tasks.filter((task) => task.id !== action.meta.arg);
 			})
 			.addCase(deleteTask.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload ?? 'Неизвестная ошибка';
+			})
+
+			// ✅ Обработка редактирования задачи
+			.addCase(updateTask.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+			.addCase(updateTask.fulfilled, (state, action: PayloadAction<Task>) => {
+				state.isLoading = false;
+				const index = state.tasks.findIndex((task) => task.id === action.payload.id);
+				if (index !== -1) {
+					state.tasks[index] = action.payload;
+				}
+			})
+			.addCase(updateTask.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload ?? 'Неизвестная ошибка';
 			});

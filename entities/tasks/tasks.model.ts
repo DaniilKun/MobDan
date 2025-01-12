@@ -7,6 +7,12 @@ export interface Task {
 	user: number;
 	organization: number;
 }
+export interface TaskUpdate {
+	title: string;
+	id: number;
+	status_task: number;
+	description?: string;
+}
 
 export interface TaskCreationPayload {
 	user: number;

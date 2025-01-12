@@ -2,9 +2,10 @@ import { COLORS, FONTS, GAPS, RADIUS } from '@/shared/tokens';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import DeleteTaskModal from './delete-task-modal';
+import { useRouter } from 'expo-router';
+import StatusBadge from '@/shared/status/StatusBadge';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useRouter } from 'expo-router'; // ✅ Добавляем роутер
 
 interface TaskItemProps {
 	id: number;
@@ -15,31 +16,18 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, statusId }) => {
 	const [isModalVisible, setModalVisible] = useState(false);
-	const router = useRouter(); // ✅ Инициализация роутера
-
-	// ✅ Получаем список статусов задач из Redux-стора
+	const router = useRouter();
+	// Получаем задачу из Redux-стора
+	const task = useSelector((state: RootState) =>
+		state.tasks.tasks.find((t) => t.id === Number(id)),
+	);
+	// Получаем список статусов из Redux-стора
 	const statuses = useSelector((state: RootState) => state.status.statuses);
 
-	// ✅ Находим статус по переданному ID
+	// Находим название статуса по ID
 	const statusName =
-		statuses.find((s) => s.status_task[0] === statusId)?.status_task[1] || 'Неизвестно';
-
-	// ✅ Функция для определения цвета статуса
-	const getStatusColor = (statusId: number) => {
-		switch (statusId) {
-			case 0:
-				return COLORS.yellow;
-			case 1:
-				return COLORS.green;
-			case 2:
-				return COLORS.orange;
-			case 3:
-				return COLORS.Aqua;
-			default:
-				return COLORS.grey;
-		}
-	};
-
+		statuses.find((s) => s.status_task[0] === task?.status_task)?.status_task[1] ||
+		'Неизвестный статус';
 	// ✅ Обработчик клика на задачу для перехода на страницу деталей
 	const handleTaskPress = () => {
 		router.push(`/privat/task/${id}`);
@@ -64,10 +52,8 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, statusId })
 
 				{/* Статус и кнопка удаления */}
 				<View style={styles.statusContainer}>
-					<Text style={[styles.taskStatus, { backgroundColor: getStatusColor(statusId) }]}>
-						{statusName}
-					</Text>
-
+					<StatusBadge statusId={statusId} statusName={statusName} />
+					{/* ✅ Используем StatusBadge */}
 					<TouchableOpacity onPress={() => setModalVisible(true)} style={styles.deleteButton}>
 						<Image source={require('@/assets/images/delete.png')} style={styles.deleteIcon} />
 					</TouchableOpacity>
@@ -117,16 +103,6 @@ const styles = StyleSheet.create({
 	},
 	statusContainer: {
 		alignItems: 'flex-end',
-	},
-	taskStatus: {
-		color: COLORS.black,
-		fontSize: FONTS.f16,
-		fontFamily: FONTS.semibold,
-		paddingVertical: GAPS.g4,
-		paddingHorizontal: GAPS.g8,
-		borderRadius: RADIUS.r10,
-		marginBottom: GAPS.g8,
-		textAlign: 'center',
 	},
 	deleteButton: {
 		alignSelf: 'flex-end',
