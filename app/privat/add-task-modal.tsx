@@ -22,12 +22,12 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ visible, onClose }) => {
 	// ✅ Функция для добавления новой задачи
 	const addTask = async () => {
 		if (!taskName.trim()) {
-			Alert.alert('Ошибка', 'Пожалуйста, заполните название задачи.');
+			Alert.alert('Error', 'Please fill in the task name.');
 			return;
 		}
 
 		if (!user || !organization) {
-			Alert.alert('Ошибка', 'Нет данных о пользователе или организации.');
+			Alert.alert('Error', 'There is no data about the user or the organization.');
 			return;
 		}
 
@@ -41,7 +41,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ visible, onClose }) => {
 				}),
 			).unwrap();
 
-			Alert.alert('Успех', 'Задача успешно создана!');
+			Alert.alert('Success', 'The task has been successfully created!');
 
 			// Очищаем поля ввода после успешного создания
 			setTaskName('');
@@ -49,7 +49,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ visible, onClose }) => {
 			onClose(); // Закрываем модалку
 			dispatch(fetchTasks()); // Перезагружаем список задач
 		} catch (error) {
-			Alert.alert('Ошибка', error?.toString() || 'Не удалось создать задачу.');
+			Alert.alert('Error', error?.toString() || 'Failed to create a task.');
 		}
 	};
 
@@ -59,24 +59,24 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ visible, onClose }) => {
 				<View style={styles.modalContent}>
 					<Text style={styles.title}>Создание новой задачи</Text>
 					<TextInput
-						placeholder="Название задачи"
+						placeholder="Task name"
 						value={taskName}
 						onChangeText={setTaskName}
 						style={styles.input}
 						placeholderTextColor={COLORS.grey}
 					/>
 					<TextInput
-						placeholder="Описание задачи (необязательно)"
+						placeholder="Task description (optional)"
 						value={taskDescription}
 						onChangeText={setTaskDescription}
 						style={styles.input}
 						placeholderTextColor={COLORS.grey}
 					/>
 					<TouchableOpacity onPress={addTask} style={styles.button}>
-						<Text style={styles.buttonText}>Создать</Text>
+						<Text style={styles.buttonText}>Create</Text>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={onClose} style={styles.closeButton}>
-						<Text style={styles.closeButtonText}>Закрыть</Text>
+						<Text style={styles.closeButtonText}>Close</Text>
 					</TouchableOpacity>
 				</View>
 			</View>

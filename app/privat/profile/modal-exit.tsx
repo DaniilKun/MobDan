@@ -12,8 +12,8 @@ interface LogoutConfirmationModalProps {
 
 const LogoutConfirmationModal: React.FC<LogoutConfirmationModalProps> = ({
 	visible,
-	title = 'Вы уверены, что хотите выйти?',
-	description = 'Вы будете перенаправлены на страницу входа.',
+	title = 'Are you sure you want to get out?',
+	description = 'You will be redirected to the login page.',
 	onConfirm,
 	onCancel,
 }) => {
@@ -25,10 +25,10 @@ const LogoutConfirmationModal: React.FC<LogoutConfirmationModalProps> = ({
 					<Text style={styles.description}>{description}</Text>
 					<View style={styles.buttonsContainer}>
 						<TouchableOpacity onPress={onConfirm} style={styles.confirmButton}>
-							<Text style={styles.buttonText}>Да</Text>
+							<Text style={styles.buttonText}>Yes</Text>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
-							<Text style={styles.buttonText}>Нет</Text>
+							<Text style={styles.buttonText}>No</Text>
 						</TouchableOpacity>
 					</View>
 				</View>

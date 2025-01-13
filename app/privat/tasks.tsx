@@ -31,7 +31,7 @@ export default function TasksPage() {
 		return (
 			<View style={styles.loaderContainer}>
 				<ActivityIndicator size="large" color={COLORS.primary} />
-				<Text style={styles.loaderText}>Загрузка задач...</Text>
+				<Text style={styles.loaderText}>Loading tasks...</Text>
 			</View>
 		);
 	}
@@ -40,9 +40,9 @@ export default function TasksPage() {
 		<View style={styles.container}>
 			{/* Кнопка для открытия модального окна */}
 			<TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.addButton}>
-				<Text style={styles.addButtonText}>Создать задачу</Text>
+				<Text style={styles.addButtonText}>Create a task</Text>
 			</TouchableOpacity>
-			<Text style={styles.title}>Ваши задачи</Text>
+			<Text style={styles.title}>Your tasks</Text>
 
 			{/* Список задач */}
 			<FlatList
@@ -56,7 +56,7 @@ export default function TasksPage() {
 						description={item.description}
 					/>
 				)}
-				ListEmptyComponent={<Text style={styles.emptyText}>Задач пока нет. Создайте первую!</Text>}
+				ListEmptyComponent={<Text style={styles.emptyText}>There are no tasks yet. Create the first one!</Text>}
 			/>
 
 			{/* Модальное окно */}

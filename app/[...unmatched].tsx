@@ -9,7 +9,7 @@ export default function UnmatchedCustom() {
 			<View style={styles.content}>
 				<Image source={require('../assets/images/page404.png')} style={styles.logoImg} />
 				<Text style={styles.logoTxt}>
-					Ооо... что-то пошло не так. Попробуйте вернуться на главный экран приложения
+					Something went wrong. Try to return to the main application screen.
 				</Text>
 				<CustomLink href={'/privat'} text="На главный экран" />
 				<CustomLink href={'/login'} text="Login" />

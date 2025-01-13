@@ -22,7 +22,7 @@ export default function EditProfileModal({
 
 	const handleSave = () => {
 		if (!username.trim() || !email.trim()) {
-			alert('Все поля обязательны для заполнения');
+			alert('All fields are required to fill in');
 			return;
 		}
 		onSave(username.trim(), email.trim());
@@ -33,13 +33,13 @@ export default function EditProfileModal({
 		<Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
-					<Text style={styles.modalTitle}>Редактировать профиль</Text>
+					<Text style={styles.modalTitle}>Edit Profile</Text>
 
 					<TextInput
 						style={styles.input}
 						value={username}
 						onChangeText={setUsername}
-						placeholder="Введите новое имя пользователя"
+						placeholder="Enter a new username"
 						placeholderTextColor={COLORS.grey}
 					/>
 
@@ -47,18 +47,18 @@ export default function EditProfileModal({
 						style={styles.input}
 						value={email}
 						onChangeText={setEmail}
-						placeholder="Введите новый email"
+						placeholder="Enter a new email address"
 						placeholderTextColor={COLORS.grey}
 					/>
 
 					{/* ✅ Кнопки на одном уровне */}
 					<View style={styles.buttonContainer}>
 						<TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-							<Text style={styles.saveButtonText}>Сохранить</Text>
+							<Text style={styles.saveButtonText}>Save</Text>
 						</TouchableOpacity>
 
 						<TouchableOpacity onPress={onClose} style={styles.cancelButton}>
-							<Text style={styles.cancelButtonText}>Отмена</Text>
+							<Text style={styles.cancelButtonText}>Cancel</Text>
 						</TouchableOpacity>
 					</View>
 				</View>

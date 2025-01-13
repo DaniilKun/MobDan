@@ -21,7 +21,7 @@ export const fetchUser = createAsyncThunk<User, void, { rejectValue: string }>(
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				return rejectWithValue(
-					error.response?.data?.message || 'Ошибка при получении данных пользователя',
+					error.response?.data?.message || 'Error when receiving user data',
 				);
 			}
 			throw error;
@@ -37,7 +37,7 @@ export const deleteUser = createAsyncThunk<void, void, { rejectValue: string }>(
 			await axiosInstance.delete(API.delete_user_me);
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка при удалении пользователя');
+				return rejectWithValue(error.response?.data?.message || 'Error when deleting a user');
 			}
 			throw error;
 		}
@@ -54,7 +54,7 @@ export const updateUser = createAsyncThunk<User, Partial<User>, { rejectValue: s
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				return rejectWithValue(
-					error.response?.data?.message || 'Ошибка при обновлении пользователя',
+					error.response?.data?.message || 'Error when updating the user',
 				);
 			}
 			throw error;
@@ -72,7 +72,7 @@ export const changePassword = createAsyncThunk<
 		await axiosInstance.put(API.change_password, passwordData);
 	} catch (error) {
 		if (error instanceof AxiosError) {
-			return rejectWithValue(error.response?.data?.message || 'Ошибка изменения пароля');
+			return rejectWithValue(error.response?.data?.message || 'Password change error');
 		}
 		throw error;
 	}
@@ -100,7 +100,7 @@ const userSlice = createSlice({
 			})
 			.addCase(fetchUser.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload || 'Неизвестная ошибка';
+				state.error = action.payload || 'Unknown error';
 			})
 
 			// ✅ Обработка удаления пользователя
@@ -114,7 +114,7 @@ const userSlice = createSlice({
 			})
 			.addCase(deleteUser.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload || 'Неизвестная ошибка';
+				state.error = action.payload || 'Unknown error';
 			})
 
 			// ✅ Обработка редактирования пользователя
@@ -128,7 +128,7 @@ const userSlice = createSlice({
 			})
 			.addCase(updateUser.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload || 'Неизвестная ошибка';
+				state.error = action.payload || 'Unknown error';
 			})
 
 			// ✅ Обработка изменения пароля
@@ -138,11 +138,11 @@ const userSlice = createSlice({
 			})
 			.addCase(changePassword.fulfilled, (state) => {
 				state.isLoading = false;
-				alert('Пароль успешно изменен');
+				alert('Password changed successfully');
 			})
 			.addCase(changePassword.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload || 'Ошибка изменения пароля';
+				state.error = action.payload || 'Password change error';
 			});
 	},
 });

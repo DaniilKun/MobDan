@@ -21,7 +21,7 @@ const store = configureStore({
 store.dispatch(loadToken()).then(() => {
 	// ✅ После загрузки токена запрашиваем данные пользователя
 	store.dispatch(fetchUser()).catch((err) => {
-		console.error('Ошибка при получении данных пользователя:', err);
+		console.error('Error when receiving user data:', err);
 	});
 });
 

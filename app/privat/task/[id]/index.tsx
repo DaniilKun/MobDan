@@ -47,12 +47,12 @@ export default function TaskDetails() {
 	// ✅ Обработчик сохранения изменений
 	const handleSave = async () => {
 		if (!title.trim()) {
-			alert('Название задачи не может быть пустым!');
+			alert('The task name cannot be empty!');
 			return;
 		}
 		// ✅ Проверяем, что task существует перед вызовом updateTask
 		if (!task) {
-			alert('Задача не найдена!');
+			alert('The issue was not found!');
 			return;
 		}
 
@@ -65,9 +65,9 @@ export default function TaskDetails() {
 		try {
 			await dispatch(updateTask({ id: task.id, taskData })).unwrap();
 			setIsEditing(false);
-			alert('Задача успешно обновлена!');
+			alert('The task has been successfully updated!');
 		} catch (error) {
-			alert(`Ошибка при обновлении задачи. ${error}`);
+			alert(`An error occurred when updating the issue. ${error}`);
 		}
 	};
 
@@ -76,7 +76,7 @@ export default function TaskDetails() {
 		return (
 			<View style={styles.loaderContainer}>
 				<ActivityIndicator size="large" color={COLORS.primary} />
-				<Text style={styles.loaderText}>Загрузка задачи...</Text>
+				<Text style={styles.loaderText}>Task loading...</Text>
 			</View>
 		);
 	}
@@ -84,7 +84,7 @@ export default function TaskDetails() {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-				<Text style={styles.backButtonText}>← Назад</Text>
+				<Text style={styles.backButtonText}>← Back</Text>
 			</TouchableOpacity>
 
 			{!isEditing && (
@@ -95,7 +95,7 @@ export default function TaskDetails() {
 
 			{isEditing ? (
 				<View>
-					<Text style={styles.fieldTitle}>Название:</Text>
+					<Text style={styles.fieldTitle}>Title:</Text>
 					<TextInput
 						style={styles.input}
 						value={title}
@@ -104,7 +104,7 @@ export default function TaskDetails() {
 						placeholderTextColor={COLORS.grey}
 					/>
 
-					<Text style={styles.fieldTitle}>Описание:</Text>
+					<Text style={styles.fieldTitle}>Description:</Text>
 					<TextInput
 						style={[styles.input, styles.textArea]}
 						value={description}
@@ -114,7 +114,7 @@ export default function TaskDetails() {
 						multiline
 					/>
 
-					<Text style={styles.fieldTitle}>Статус:</Text>
+					<Text style={styles.fieldTitle}>Status:</Text>
 					<View style={styles.pickerContainer}>
 						<Picker
 							selectedValue={statusId}
@@ -141,17 +141,17 @@ export default function TaskDetails() {
 			) : (
 				<View>
 					<View style={styles.fieldContainer}>
-						<Text style={styles.fieldTitle}>Название:</Text>
+						<Text style={styles.fieldTitle}>Title:</Text>
 						<Text style={styles.fieldValue}>{task.title}</Text>
 					</View>
 
 					<View style={styles.fieldContainer}>
-						<Text style={styles.fieldTitle}>Описание:</Text>
-						<Text style={styles.fieldValue}>{task.description || 'Описание отсутствует'}</Text>
+						<Text style={styles.fieldTitle}>Description:</Text>
+						<Text style={styles.fieldValue}>{task.description || 'The description is missing'}</Text>
 					</View>
 
 					<View style={styles.fieldContainer}>
-						<Text style={styles.fieldTitle}>Статус:</Text>
+						<Text style={styles.fieldTitle}>Status:</Text>
 						<View
 							style={[
 								styles.fieldValueStatus,
@@ -160,7 +160,7 @@ export default function TaskDetails() {
 						>
 							<Text>
 								{statuses.find((s) => s.status_task[0] === parseInt(statusId, 10))
-									?.status_task[1] || 'Неизвестно'}
+									?.status_task[1] || 'Is unknown'}
 							</Text>
 						</View>
 					</View>
