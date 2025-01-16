@@ -61,7 +61,7 @@ const Login = () => {
 								isPassword
 								rules={{ required: 'A password is required' }}
 							/>
-							<Button text="Войти" onPress={handleSubmit(onSubmit)} />
+							<Button text="Login" onPress={handleSubmit(onSubmit)} />
 						</View>
 						<CustomLink href="/registration" text="No account? To create..." />
 					</>

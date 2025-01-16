@@ -56,7 +56,7 @@ export default function ChangePassword() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Смена пароля</Text>
+			<Text style={styles.title}>Change your password</Text>
 
 			{/* Используем кастомный Input */}
 			<Input
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
 		marginTop: GAPS.g16,
 	},
 	saveButton: {
-		backgroundColor: COLORS.green,
+		backgroundColor: COLORS.grey,
 		paddingVertical: GAPS.g16,
 		paddingHorizontal: GAPS.g16,
 		borderRadius: RADIUS.r10,

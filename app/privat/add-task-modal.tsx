@@ -49,7 +49,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ visible, onClose }) => {
 			onClose(); // Закрываем модалку
 			dispatch(fetchTasks()); // Перезагружаем список задач
 		} catch (error) {
-			Alert.alert('Error', error?.toString() || 'Failed to create a task.');
+			Alert.alert('Error', error?.toString() || 'Failed to create new task.');
 		}
 	};
 
@@ -57,7 +57,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ visible, onClose }) => {
 		<Modal visible={visible} animationType="slide" transparent={true}>
 			<View style={styles.overlay}>
 				<View style={styles.modalContent}>
-					<Text style={styles.title}>Создание новой задачи</Text>
+					<Text style={styles.title}>Create new task</Text>
 					<TextInput
 						placeholder="Task name"
 						value={taskName}

@@ -40,7 +40,7 @@ export default function TasksPage() {
 		<View style={styles.container}>
 			{/* Кнопка для открытия модального окна */}
 			<TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.addButton}>
-				<Text style={styles.addButtonText}>Create a task</Text>
+				<Text style={styles.addButtonText}>Create new task</Text>
 			</TouchableOpacity>
 			<Text style={styles.title}>Your tasks</Text>
 
@@ -56,7 +56,9 @@ export default function TasksPage() {
 						description={item.description}
 					/>
 				)}
-				ListEmptyComponent={<Text style={styles.emptyText}>There are no tasks yet. Create the first one!</Text>}
+				ListEmptyComponent={
+					<Text style={styles.emptyText}>There are no tasks yet. Create the first one!</Text>
+				}
 			/>
 
 			{/* Модальное окно */}

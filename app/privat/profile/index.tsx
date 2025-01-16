@@ -1,6 +1,6 @@
 import { COLORS, FONTS, GAPS, RADIUS } from '@/shared/tokens';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
 import { useRouter } from 'expo-router';
@@ -54,10 +54,10 @@ export default function Profile() {
 		dispatch(updateUser({ username, email }))
 			.unwrap()
 			.then(() => {
-				alert('Profile has been successfully updated');
+				Alert.alert('Profile has been successfully updated');
 			})
 			.catch((error) => {
-				alert(`Profile update error: ${error}`);
+				Alert.alert(`Profile update error: ${error}`);
 			});
 	};
 
@@ -237,4 +237,3 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.semibold,
 	},
 });
-Даник, Удали Console log везде, и сделай const, как сделал я, в одном из твоих модулей :)

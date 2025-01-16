@@ -1,13 +1,13 @@
-import Button from '@/shared/button/Button';
-import CustomLink from '@/shared/customLink/CustomLink';
-import ErrorNotification from '@/shared/errorNotification/ErrorNotification';
-import Input from '@/shared/input/Input';
-import { COLORS, GAPS } from '@/shared/tokens';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { COLORS, GAPS } from '@/shared/tokens';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { registration } from '@/entities/auth/model/registrationSlice';
+import Input from '@/shared/input/Input';
+import ErrorNotification from '@/shared/errorNotification/ErrorNotification';
+import CustomLink from '@/shared/customLink/CustomLink';
 
 interface RegistrationForm {
 	username: string;
@@ -27,15 +27,20 @@ const Registration = () => {
 		},
 	});
 
+	// Локальное состояние для чекбокса
+	const [isAgreed, setIsAgreed] = useState(false);
+
 	// ✅ Обработка отправки формы
 	const onSubmit: SubmitHandler<RegistrationForm> = async (data) => {
 		try {
 			console.log('📤 Отправка данных формы:', data);
 			const response = await dispatch(registration(data)).unwrap();
 			console.log('✅ Регистрация успешна:', response);
+			console.log('message error:', message);
 			reset(); // Сброс формы
 		} catch (error) {
-			console.error('❌ Registration error:', error);
+			console.error('❌ Ошибка регистрации:', error);
+			console.log('message error:', message);
 		}
 	};
 
@@ -43,11 +48,13 @@ const Registration = () => {
 		<View style={styles.container}>
 			<ErrorNotification error={error} />
 			{message && <Text style={styles.successMessage}>{message}</Text>}
+
 			<View style={styles.content}>
 				<View style={styles.logo}>
 					<Image source={require('../assets/images/logo.png')} style={styles.logoImg} />
 					<Text style={styles.logoTxt}>MobDan</Text>
 				</View>
+
 				<View style={styles.form}>
 					<Input
 						placeholder="Username"
@@ -74,13 +81,40 @@ const Registration = () => {
 						control={control}
 						rules={{ required: 'A password is required', minLength: 6 }}
 					/>
-					<Button
-						text={isLoading ? 'Registration...' : 'Register'}
+
+					{/* Чекбокс с ссылкой на политику конфиденциальности */}
+					<View style={styles.checkboxContainer}>
+						<TouchableOpacity
+							style={[styles.checkbox, isAgreed && styles.checkboxChecked]}
+							onPress={() => setIsAgreed(!isAgreed)}
+						/>
+						<Text style={styles.checkboxLabel}>
+							I agree to the
+							<CustomLink
+								text={' terms of the privacy policy'}
+								style={styles.privacyPolicyLink}
+								href="https://mytasksapp.pythonanywhere.com/politics/"
+							></CustomLink>
+						</Text>
+					</View>
+
+					{/* Кнопка регистрации */}
+					<TouchableOpacity
+						style={[styles.registerButton, !isAgreed && styles.registerButtonDisabled]}
 						onPress={handleSubmit(onSubmit)}
-						disabled={isLoading}
-					/>
+						disabled={!isAgreed || isLoading}
+					>
+						<Text style={styles.registerButtonText}>
+							{isLoading ? 'Registering...' : 'Register'}
+						</Text>
+					</TouchableOpacity>
 				</View>
-				<CustomLink href="/login" text="I already have an account. Enter..." />
+
+				<CustomLink
+					style={styles.loginLink}
+					href="/login"
+					text="I already have an account. Login..."
+				/>
 			</View>
 		</View>
 	);
@@ -97,7 +131,7 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		alignItems: 'center',
-		gap: GAPS.g50,
+		// gap: GAPS.g50,
 	},
 	logo: {
 		alignItems: 'center',
@@ -114,11 +148,54 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		alignSelf: 'stretch',
-		gap: GAPS.g16,
 	},
 	successMessage: {
 		color: COLORS.green,
 		textAlign: 'center',
 		marginBottom: 10,
+	},
+	checkboxContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: GAPS.g16,
+	},
+	checkbox: {
+		width: 20,
+		height: 20,
+		borderWidth: 2,
+		borderColor: COLORS.grey,
+		marginRight: GAPS.g8,
+		borderRadius: 4,
+	},
+	checkboxChecked: {
+		backgroundColor: COLORS.primary,
+		borderColor: COLORS.primary,
+	},
+	checkboxLabel: {
+		color: COLORS.grey,
+		fontSize: 14,
+	},
+	privacyPolicyLink: {
+		color: COLORS.primary,
+		textDecorationLine: 'underline',
+	},
+	registerButton: {
+		backgroundColor: COLORS.primary,
+		paddingVertical: GAPS.g16,
+		borderRadius: 10,
+		alignItems: 'center',
+		marginTop: GAPS.g16,
+	},
+	registerButtonDisabled: {
+		backgroundColor: COLORS.grey,
+	},
+	registerButtonText: {
+		color: COLORS.white,
+		fontSize: 16,
+	},
+	loginLink: {
+		color: COLORS.primary,
+		textAlign: 'center',
+		marginTop: GAPS.g16,
 	},
 });

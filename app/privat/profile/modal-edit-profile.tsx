@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, Alert } from 'react-native';
 import { COLORS, FONTS, GAPS, RADIUS } from '@/shared/tokens';
 
 interface EditProfileModalProps {
@@ -22,7 +22,7 @@ export default function EditProfileModal({
 
 	const handleSave = () => {
 		if (!username.trim() || !email.trim()) {
-			alert('All fields are required to fill in');
+			Alert.alert('All fields are required to fill in');
 			return;
 		}
 		onSave(username.trim(), email.trim());

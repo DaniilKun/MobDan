@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	Image,
 	TextInput,
+	Alert,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -65,9 +66,9 @@ export default function TaskDetails() {
 		try {
 			await dispatch(updateTask({ id: task.id, taskData })).unwrap();
 			setIsEditing(false);
-			alert('The task has been successfully updated!');
+			Alert.alert('The task has been successfully updated!');
 		} catch (error) {
-			alert(`An error occurred when updating the issue. ${error}`);
+			Alert.alert(`An error occurred when updating the issue. ${error}`);
 		}
 	};
 
@@ -100,7 +101,7 @@ export default function TaskDetails() {
 						style={styles.input}
 						value={title}
 						onChangeText={setTitle}
-						placeholder="Введите название"
+						placeholder="Enter the name"
 						placeholderTextColor={COLORS.grey}
 					/>
 
@@ -109,7 +110,7 @@ export default function TaskDetails() {
 						style={[styles.input, styles.textArea]}
 						value={description}
 						onChangeText={setDescription}
-						placeholder="Введите описание"
+						placeholder="Enter a description"
 						placeholderTextColor={COLORS.grey}
 						multiline
 					/>
@@ -147,7 +148,9 @@ export default function TaskDetails() {
 
 					<View style={styles.fieldContainer}>
 						<Text style={styles.fieldTitle}>Description:</Text>
-						<Text style={styles.fieldValue}>{task.description || 'The description is missing'}</Text>
+						<Text style={styles.fieldValue}>
+							{task.description || 'The description is missing'}
+						</Text>
 					</View>
 
 					<View style={styles.fieldContainer}>
