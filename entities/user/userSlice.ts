@@ -74,6 +74,21 @@ export const changePassword = createAsyncThunk<
 	}
 });
 
+// ✅ Thunk для восстановления пароля
+export const forgotPassword = createAsyncThunk<void, { email: string }, { rejectValue: string }>(
+	'user/forgotPassword',
+	async ({ email }, { rejectWithValue }) => {
+		try {
+			await axiosInstance.post(API.forgot_password, { email });
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				return rejectWithValue(error.response?.data || 'Error when requesting password recovery');
+			}
+			throw error;
+		}
+	},
+);
+
 // ✅ Создаем slice
 const userSlice = createSlice({
 	name: 'user',
@@ -139,6 +154,18 @@ const userSlice = createSlice({
 			.addCase(changePassword.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload || 'Password change error';
+			})
+			// ✅ Обработка восстановления пароля
+			.addCase(forgotPassword.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+			.addCase(forgotPassword.fulfilled, (state) => {
+				state.isLoading = false;
+			})
+			.addCase(forgotPassword.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload || 'Password recovery error';
 			});
 	},
 });

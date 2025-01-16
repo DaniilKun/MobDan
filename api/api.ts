@@ -13,6 +13,7 @@ export const API = {
 	change_password: `${PREFIX}/user/me/change-password/`,
 	user_me_edit: `${PREFIX}/user/me/edit/`,
 	delete_user_me: `${PREFIX}/user/me/delete/`,
+	forgot_password: `${PREFIX}/user/password-reset/`,
 
 	// ✅ Динамический URL для удаления задачи
 	delete_task: (id: number) => `${PREFIX}/tasks/${id}/delete/`,

@@ -4,9 +4,9 @@ import CustomLink from '@/shared/customLink/CustomLink';
 import ErrorNotification from '@/shared/errorNotification/ErrorNotification';
 import Loader from '@/shared/loader/Loader';
 import Input from '@/shared/input/Input';
-import { COLORS, GAPS } from '@/shared/tokens';
+import { COLORS, FONTS, GAPS } from '@/shared/tokens';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { login } from '@/entities/auth/model/authSlice';
@@ -61,6 +61,12 @@ const Login = () => {
 								isPassword
 								rules={{ required: 'A password is required' }}
 							/>
+
+							{/* Ссылка на страницу восстановления пароля */}
+							<TouchableOpacity onPress={() => router.push('/forgot-password')}>
+								<Text style={styles.forgotPassword}>Forgot your password?</Text>
+							</TouchableOpacity>
+
 							<Button text="Login" onPress={handleSubmit(onSubmit)} />
 						</View>
 						<CustomLink href="/registration" text="No account? To create..." />
@@ -100,5 +106,12 @@ const styles = StyleSheet.create({
 	form: {
 		alignSelf: 'stretch',
 		gap: GAPS.g4,
+	},
+	forgotPassword: {
+		color: COLORS.primary,
+		textAlign: 'center',
+		marginBottom: GAPS.g16,
+		fontSize: FONTS.f16,
+		textDecorationLine: 'underline',
 	},
 });
