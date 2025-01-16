@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -29,29 +30,23 @@ const Registration = () => {
 		},
 	});
 
-	// Локальное состояние для чекбокса
 	const [isAgreed, setIsAgreed] = useState(false);
 
-	// ✅ Обработка отправки формы
 	const onSubmit: SubmitHandler<RegistrationForm> = async (data) => {
 		try {
 			await dispatch(registration(data)).unwrap();
-			reset(); // Сброс формы
+			reset();
 			await setTimeout(() => {
 				router.replace('/login');
 			}, 1000);
 		} catch (error) {
-			console.error('❌ Ошибка регистрации:', error);
+			/* empty */
 		}
 	};
-	// if (condition) {
-	// }
 
 	return (
 		<View style={styles.container}>
-			{/* Компонент для отображения ошибок */}
 			<ErrorNotification error={error} />
-			{/* Сообщение об успехе */}
 			{message && <Text style={styles.successMessage}>{message}</Text>}
 
 			<View style={styles.content}>
@@ -87,7 +82,6 @@ const Registration = () => {
 						rules={{ required: 'A password is required', minLength: 6 }}
 					/>
 
-					{/* Чекбокс с ссылкой на политику конфиденциальности */}
 					<View style={styles.checkboxContainer}>
 						<TouchableOpacity
 							style={[styles.checkbox, isAgreed && styles.checkboxChecked]}
@@ -103,7 +97,6 @@ const Registration = () => {
 						</Text>
 					</View>
 
-					{/* Кнопка регистрации */}
 					<TouchableOpacity
 						style={[styles.registerButton, !isAgreed && styles.registerButtonDisabled]}
 						onPress={handleSubmit(onSubmit)}

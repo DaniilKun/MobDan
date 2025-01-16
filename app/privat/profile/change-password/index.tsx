@@ -18,10 +18,8 @@ export default function ChangePassword() {
 	const dispatch = useDispatch<AppDispatch>();
 	const router = useRouter();
 
-	// Локальное состояние для отслеживания загрузки
 	const [isLoading, setIsLoading] = useState(false);
 
-	// Используем react-hook-form для управления формой
 	const { control, handleSubmit, reset } = useForm<ChangePasswordForm>({
 		defaultValues: {
 			old_password: '',
@@ -30,27 +28,26 @@ export default function ChangePassword() {
 		},
 	});
 
-	// Обработка смены пароля
 	const onSubmit: SubmitHandler<ChangePasswordForm> = (data) => {
 		if (data.new_password !== data.confirm_password) {
 			Alert.alert('Error', 'The new passwords dont match');
 			return;
 		}
 
-		setIsLoading(true); // ✅ Показываем лоадер перед началом запроса
+		setIsLoading(true);
 
 		dispatch(changePassword(data))
 			.unwrap()
 			.then(() => {
 				Alert.alert('Password changed successfully');
-				reset(); // Сброс формы после успешной смены пароля
+				reset();
 				router.push('/privat/profile');
 			})
 			.catch((error) => {
 				Alert.alert('Error', error || 'Error when changing the password');
 			})
 			.finally(() => {
-				setIsLoading(false); // ✅ Скрываем лоадер после завершения запроса
+				setIsLoading(false);
 			});
 	};
 
@@ -58,7 +55,6 @@ export default function ChangePassword() {
 		<View style={styles.container}>
 			<Text style={styles.title}>Change your password</Text>
 
-			{/* Используем кастомный Input */}
 			<Input
 				name="old_password"
 				control={control}
@@ -86,11 +82,9 @@ export default function ChangePassword() {
 				rules={{ required: 'Password confirmation is required' }}
 			/>
 
-			{/* Если идет загрузка, показываем лоадер */}
 			{isLoading ? (
 				<ActivityIndicator size="large" color={COLORS.primary} />
 			) : (
-				// Кнопки на одном уровне
 				<View style={styles.buttonRow}>
 					<TouchableOpacity onPress={handleSubmit(onSubmit)} style={styles.saveButton}>
 						<Text style={styles.saveButtonText}>Change password</Text>

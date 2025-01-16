@@ -15,18 +15,15 @@ export const registration = createAsyncThunk<IRegistrationResponse, IRegistratio
 	'auth/registration',
 	async ({ username, password, email }, { rejectWithValue }) => {
 		try {
-			console.log('📤 Отправка запроса на регистрацию...');
 			const { data } = await axiosPublicInstance.post<IRegistrationResponse>(API.registration, {
 				username,
 				password,
 				email,
 			});
 
-			console.log('✅ Ответ от сервера:', data);
 			return data;
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
-				console.error('❌ Registration error:', error.response?.data);
 				return rejectWithValue(error.response?.data || { general: ['Registration error'] });
 			}
 			throw error;
@@ -51,14 +48,11 @@ const registrationSlice = createSlice({
 			})
 			.addCase(registration.rejected, (state, action) => {
 				state.isLoading = false;
-				// Если `action.payload` содержит объект ошибки
 				if (action.payload && typeof action.payload === 'object') {
-					state.error = action.payload as Record<string, string[]>; // Сохраняем объект ошибок
+					state.error = action.payload as Record<string, string[]>;
 				} else if (action.error.message) {
-					// Если это строка
 					state.error = { general: [action.error.message] };
 				} else {
-					// Общая ошибка
 					state.error = { general: ['An unexpected error occurred'] };
 				}
 			});

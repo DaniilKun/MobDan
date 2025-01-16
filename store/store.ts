@@ -1,4 +1,4 @@
-import userReducer, { fetchUser } from '@/entities/user/userSlice';
+import userReducer from '@/entities/user/userSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer, { loadToken } from '@/entities/auth/model/authSlice';
 import organizationReducer from '@/entities/organization/model/organizationSlice';
@@ -17,13 +17,7 @@ const store = configureStore({
 	},
 });
 
-// ✅ Загружаем токен при старте приложения
-store.dispatch(loadToken()).then(() => {
-	// ✅ После загрузки токена запрашиваем данные пользователя
-	// store.dispatch(fetchUser()).catch((err) => {
-	// 	console.error('Error when receiving user data:', err);
-	// });
-});
+store.dispatch(loadToken());
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

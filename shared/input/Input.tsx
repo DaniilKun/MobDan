@@ -6,7 +6,7 @@ import EyeClosedIcon from '@/assets/icons/eye-closed';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 
 interface InputProps<T extends FieldValues> extends TextInputProps {
-	name: Path<T>; // ✅ Исправлено: Используем Path<T>
+	name: Path<T>;
 	control: Control<T>;
 	isPassword?: boolean;
 	rules?: object;

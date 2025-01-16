@@ -33,7 +33,6 @@ const ErrorNotification = ({ error }: ErrorNotificationProps) => {
 		return null;
 	}
 
-	// Если ошибка - объект, отображаем список ошибок
 	const renderErrors = () => {
 		if (error && typeof error === 'object' && !Array.isArray(error)) {
 			return Object.entries(error).map(([field, messages]) => (
@@ -41,22 +40,14 @@ const ErrorNotification = ({ error }: ErrorNotificationProps) => {
 					<Text style={styles.errorField}>
 						{field} : {messages}
 					</Text>
-					{/* {Array.isArray(messages) &&
-						messages.map((msg, idx) => (
-							<Text key={idx} style={styles.errorTxt}>
-								- {msg}
-							</Text>
-						))} */}
 				</View>
 			));
 		}
 
-		// Если ошибка - строка
 		if (typeof error === 'string') {
 			return <Text style={styles.errorTxt}>{error}</Text>;
 		}
 
-		// Если ошибка не распознается, возвращаем null
 		return null;
 	};
 

@@ -1,4 +1,3 @@
-// components/TasksPage.tsx
 import { COLORS, GAPS, FONTS } from '@/shared/tokens';
 import React, { useEffect, useState } from 'react';
 import {
@@ -21,12 +20,10 @@ export default function TasksPage() {
 
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
-	// ✅ Загружаем список задач при первом рендере
 	useEffect(() => {
 		dispatch(fetchTasks());
 	}, [dispatch]);
 
-	// ✅ Показываем лоадер, если идет загрузка задач
 	if (isLoading) {
 		return (
 			<View style={styles.loaderContainer}>
@@ -38,13 +35,11 @@ export default function TasksPage() {
 
 	return (
 		<View style={styles.container}>
-			{/* Кнопка для открытия модального окна */}
 			<TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.addButton}>
 				<Text style={styles.addButtonText}>Create new task</Text>
 			</TouchableOpacity>
 			<Text style={styles.title}>Your tasks</Text>
 
-			{/* Список задач */}
 			<FlatList
 				data={tasks}
 				keyExtractor={(item) => item.id.toString()}
@@ -61,7 +56,6 @@ export default function TasksPage() {
 				}
 			/>
 
-			{/* Модальное окно */}
 			<AddTaskModal visible={isModalVisible} onClose={() => setIsModalVisible(false)} />
 		</View>
 	);

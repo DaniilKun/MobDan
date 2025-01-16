@@ -1,4 +1,3 @@
-// components/TaskModal.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal } from 'react-native';
 import { COLORS, GAPS, FONTS, RADIUS } from '@/shared/tokens';

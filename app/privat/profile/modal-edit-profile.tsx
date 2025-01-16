@@ -51,7 +51,6 @@ export default function EditProfileModal({
 						placeholderTextColor={COLORS.grey}
 					/>
 
-					{/* ✅ Кнопки на одном уровне */}
 					<View style={styles.buttonContainer}>
 						<TouchableOpacity onPress={handleSave} style={styles.saveButton}>
 							<Text style={styles.saveButtonText}>Save</Text>

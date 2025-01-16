@@ -7,7 +7,6 @@ import { API } from '@/api/api';
 const TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 
-// Начальное состояние
 const initialState: AuthState = {
 	access_token: null,
 	refresh_token: null,
@@ -15,14 +14,12 @@ const initialState: AuthState = {
 	error: null,
 };
 
-// ✅ Thunk для логина
 export const login = createAsyncThunk<IAuthResponse, ILoginRequest>(
 	'auth/login',
 	async ({ username, password }, { rejectWithValue }) => {
 		try {
 			const { data } = await axiosInstance.post<IAuthResponse>(API.login, { username, password });
 
-			// Сохраняем токены в AsyncStorage
 			await AsyncStorage.setItem(TOKEN_KEY, data.access);
 			await AsyncStorage.setItem(REFRESH_TOKEN_KEY, data.refresh);
 
@@ -36,17 +33,11 @@ export const login = createAsyncThunk<IAuthResponse, ILoginRequest>(
 	},
 );
 
-// ✅ Thunk для загрузки токенов из AsyncStorage при старте приложения
 export const loadToken = createAsyncThunk('auth/loadToken', async (_, { dispatch }) => {
 	const accessToken = await AsyncStorage.getItem(TOKEN_KEY);
 	const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
 
-	console.log('🔍 Загружаем токены из AsyncStorage:');
-	console.log('accessToken:', accessToken);
-	console.log('refreshToken:', refreshToken);
-
 	if (accessToken && refreshToken) {
-		console.log('✅ Токены найдены. Устанавливаем их в Redux.');
 		axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 		dispatch(setAccessToken({ access: accessToken, refresh: refreshToken }));
 	} else {
@@ -54,7 +45,6 @@ export const loadToken = createAsyncThunk('auth/loadToken', async (_, { dispatch
 	}
 });
 
-// ✅ Thunk для обновления токена
 export const refreshToken = createAsyncThunk<IAuthResponse>(
 	'auth/refreshToken',
 	async (_, { getState, rejectWithValue }) => {
@@ -70,7 +60,6 @@ export const refreshToken = createAsyncThunk<IAuthResponse>(
 				refresh: refresh_token,
 			});
 
-			// Сохраняем новый access токен в AsyncStorage
 			await AsyncStorage.setItem(TOKEN_KEY, data.access);
 
 			return data;
@@ -83,7 +72,6 @@ export const refreshToken = createAsyncThunk<IAuthResponse>(
 	},
 );
 
-// ✅ Создаем Slice
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
@@ -98,7 +86,6 @@ const authSlice = createSlice({
 			state.isLoading = false;
 			state.error = null;
 
-			// Удаляем токены из AsyncStorage
 			AsyncStorage.removeItem(TOKEN_KEY);
 			AsyncStorage.removeItem(REFRESH_TOKEN_KEY);
 		},
@@ -117,7 +104,6 @@ const authSlice = createSlice({
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoading = false;
-				// Сохраняем объект ошибки, если он есть
 				if (action.payload && typeof action.payload === 'object') {
 					state.error = action.payload as Record<string, string[]>;
 				} else {

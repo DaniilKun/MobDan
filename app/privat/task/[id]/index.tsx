@@ -22,19 +22,16 @@ export default function TaskDetails() {
 	const dispatch = useDispatch<AppDispatch>();
 	const router = useRouter();
 
-	// Получаем задачу из Redux-стора
 	const task = useSelector((state: RootState) =>
 		state.tasks.tasks.find((t) => t.id === Number(id)),
 	);
 	const statuses = useSelector((state: RootState) => state.status.statuses);
 
-	// Локальное состояние для редактирования
 	const [isEditing, setIsEditing] = useState(false);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [statusId, setStatusId] = useState('0');
 
-	// Загружаем задачи при первом рендере
 	useEffect(() => {
 		if (!task) {
 			dispatch(fetchTasks());
@@ -45,13 +42,11 @@ export default function TaskDetails() {
 		}
 	}, [dispatch, task]);
 
-	// ✅ Обработчик сохранения изменений
 	const handleSave = async () => {
 		if (!title.trim()) {
 			alert('The task name cannot be empty!');
 			return;
 		}
-		// ✅ Проверяем, что task существует перед вызовом updateTask
 		if (!task) {
 			alert('The issue was not found!');
 			return;
@@ -72,7 +67,6 @@ export default function TaskDetails() {
 		}
 	};
 
-	// ✅ Если задача загружается, показываем лоадер
 	if (!task) {
 		return (
 			<View style={styles.loaderContainer}>
@@ -136,7 +130,7 @@ export default function TaskDetails() {
 					</View>
 
 					<TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-						<Text style={styles.saveButtonText}>Сохранить</Text>
+						<Text style={styles.saveButtonText}>Save</Text>
 					</TouchableOpacity>
 				</View>
 			) : (

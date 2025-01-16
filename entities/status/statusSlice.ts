@@ -4,20 +4,18 @@ import { API } from '@/api/api';
 import { AxiosError } from 'axios';
 import { StatusState, TaskStatus } from './status.model';
 
-// Начальное состояние
 const initialState: StatusState = {
 	statuses: [],
 	isLoading: false,
 	error: null,
 };
 
-// ✅ Thunk для получения статусов задач
 export const fetchStatuses = createAsyncThunk<TaskStatus[], void, { rejectValue: string }>(
 	'status/fetchStatuses',
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axiosInstance.get(API.status_tasks);
-			return response.data; // Возвращаем массив статусов
+			return response.data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				return rejectWithValue(error.response?.data?.message || 'Error receiving statuses');
@@ -27,7 +25,6 @@ export const fetchStatuses = createAsyncThunk<TaskStatus[], void, { rejectValue:
 	},
 );
 
-// ✅ Создаем slice
 const statusSlice = createSlice({
 	name: 'status',
 	initialState,
@@ -49,5 +46,4 @@ const statusSlice = createSlice({
 	},
 });
 
-// ✅ Экспортируем reducer
 export default statusSlice.reducer;
