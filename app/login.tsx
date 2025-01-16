@@ -37,7 +37,7 @@ const Login = () => {
 
 	return (
 		<View style={styles.container}>
-			<ErrorNotification error={error} />
+			{error && <ErrorNotification error={error} />}
 			<View style={styles.content}>
 				<View style={styles.logo}>
 					<Image source={require('../assets/images/logo.png')} style={styles.logoImg} />
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		alignItems: 'center',
-		gap: GAPS.g50,
+		gap: GAPS.g16,
 	},
 	logo: {
 		alignItems: 'center',
@@ -99,6 +99,6 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		alignSelf: 'stretch',
-		gap: GAPS.g16,
+		gap: GAPS.g4,
 	},
 });

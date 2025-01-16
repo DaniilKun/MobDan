@@ -20,9 +20,9 @@ const store = configureStore({
 // ✅ Загружаем токен при старте приложения
 store.dispatch(loadToken()).then(() => {
 	// ✅ После загрузки токена запрашиваем данные пользователя
-	store.dispatch(fetchUser()).catch((err) => {
-		console.error('Error when receiving user data:', err);
-	});
+	// store.dispatch(fetchUser()).catch((err) => {
+	// 	console.error('Error when receiving user data:', err);
+	// });
 });
 
 export type RootState = ReturnType<typeof store.getState>;

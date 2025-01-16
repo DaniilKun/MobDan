@@ -1,4 +1,4 @@
-export const PREFIX = 'https://mytasksapp.pythonanywhere.com/api';
+export const PREFIX = process.env.EXPO_PUBLIC_API_URL;
 
 export const API = {
 	registration: `${PREFIX}/auth/`,

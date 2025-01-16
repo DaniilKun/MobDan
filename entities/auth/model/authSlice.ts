@@ -29,7 +29,7 @@ export const login = createAsyncThunk<IAuthResponse, ILoginRequest>(
 			return data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Authorization error');
+				return rejectWithValue(error.response?.data || { detail: 'Authorization error' });
 			}
 			throw error;
 		}
@@ -117,7 +117,12 @@ const authSlice = createSlice({
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload as string;
+				// Сохраняем объект ошибки, если он есть
+				if (action.payload && typeof action.payload === 'object') {
+					state.error = action.payload as Record<string, string[]>;
+				} else {
+					state.error = { detail: ['An unexpected error occurred'] };
+				}
 			})
 			.addCase(loadToken.pending, (state) => {
 				state.isLoading = true;
