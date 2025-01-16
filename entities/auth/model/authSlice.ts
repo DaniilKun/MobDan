@@ -29,7 +29,7 @@ export const login = createAsyncThunk<IAuthResponse, ILoginRequest>(
 			return data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка авторизации');
+				return rejectWithValue(error.response?.data?.message || 'Authorization error');
 			}
 			throw error;
 		}
@@ -50,7 +50,7 @@ export const loadToken = createAsyncThunk('auth/loadToken', async (_, { dispatch
 		axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 		dispatch(setAccessToken({ access: accessToken, refresh: refreshToken }));
 	} else {
-		console.log('❌ Токены не найдены.');
+		console.log('❌ Tokens not found.');
 	}
 });
 
@@ -62,7 +62,7 @@ export const refreshToken = createAsyncThunk<IAuthResponse>(
 		const refresh_token = state.auth.refresh_token;
 
 		if (!refresh_token) {
-			return rejectWithValue('Нет refresh токена');
+			return rejectWithValue('There is no refresh token');
 		}
 
 		try {
@@ -76,7 +76,7 @@ export const refreshToken = createAsyncThunk<IAuthResponse>(
 			return data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка обновления токена');
+				return rejectWithValue(error.response?.data?.message || 'Token update error');
 			}
 			throw error;
 		}

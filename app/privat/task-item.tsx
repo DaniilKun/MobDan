@@ -27,7 +27,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, statusId })
 	// Находим название статуса по ID
 	const statusName =
 		statuses.find((s) => s.status_task[0] === task?.status_task)?.status_task[1] ||
-		'Неизвестный статус';
+		'Unknown status';
 	// ✅ Обработчик клика на задачу для перехода на страницу деталей
 	const handleTaskPress = () => {
 		router.push(`/privat/task/${id}`);

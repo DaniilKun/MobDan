@@ -20,7 +20,7 @@ export const fetchStatuses = createAsyncThunk<TaskStatus[], void, { rejectValue:
 			return response.data; // Возвращаем массив статусов
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка получения статусов');
+				return rejectWithValue(error.response?.data?.message || 'Error receiving statuses');
 			}
 			throw error;
 		}
@@ -44,7 +44,7 @@ const statusSlice = createSlice({
 			})
 			.addCase(fetchStatuses.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload ?? 'Неизвестная ошибка';
+				state.error = action.payload ?? 'Unknown error';
 			});
 	},
 });

@@ -35,7 +35,7 @@ const Registration = () => {
 			console.log('✅ Регистрация успешна:', response);
 			reset(); // Сброс формы
 		} catch (error) {
-			console.error('❌ Ошибка регистрации:', error);
+			console.error('❌ Registration error:', error);
 		}
 	};
 
@@ -53,17 +53,17 @@ const Registration = () => {
 						placeholder="Username"
 						name="username"
 						control={control}
-						rules={{ required: 'Username обязателен' }}
+						rules={{ required: 'Username is required' }}
 					/>
 					<Input
 						placeholder="Email"
 						name="email"
 						control={control}
 						rules={{
-							required: 'Email обязателен',
+							required: 'Email is required',
 							pattern: {
 								value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-								message: 'Некорректный Email',
+								message: 'Incorrect Email Address',
 							},
 						}}
 					/>
@@ -72,15 +72,15 @@ const Registration = () => {
 						placeholder="Password"
 						name="password"
 						control={control}
-						rules={{ required: 'Пароль обязателен', minLength: 6 }}
+						rules={{ required: 'A password is required', minLength: 6 }}
 					/>
 					<Button
-						text={isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
+						text={isLoading ? 'Registration...' : 'Register'}
 						onPress={handleSubmit(onSubmit)}
 						disabled={isLoading}
 					/>
 				</View>
-				<CustomLink href="/login" text="Уже есть аккаунт. Войти..." />
+				<CustomLink href="/login" text="I already have an account. Enter..." />
 			</View>
 		</View>
 	);

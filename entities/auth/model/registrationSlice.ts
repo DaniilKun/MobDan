@@ -26,8 +26,8 @@ export const registration = createAsyncThunk<IRegistrationResponse, IRegistratio
 			return data;
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
-				console.error('❌ Ошибка регистрации:', error.response?.data);
-				return rejectWithValue(error.response?.data?.message || 'Ошибка регистрации');
+				console.error('❌ Registration error:', error.response?.data);
+				return rejectWithValue(error.response?.data?.message || 'Registration error');
 			}
 			throw error;
 		}

@@ -42,7 +42,7 @@ export default function AuthLayout() {
 		return (
 			<View style={styles.loadingContainer}>
 				<ActivityIndicator size="large" color={COLORS.primary} />
-				<Text style={styles.loadingText}>Загрузка организации...</Text>
+				<Text style={styles.loadingText}>Uploading an organization...</Text>
 			</View>
 		);
 	}
@@ -51,7 +51,7 @@ export default function AuthLayout() {
 	if (!access_token) {
 		return (
 			<View style={styles.loadingContainer}>
-				<Text style={styles.loadingText}>Перенаправление на страницу входа...</Text>
+				<Text style={styles.loadingText}>Redirection to the login page...</Text>
 			</View>
 		);
 	}
@@ -67,7 +67,7 @@ export default function AuthLayout() {
 						{username ? (
 							<Text style={styles.profileText}>{username}</Text>
 						) : (
-							<Text style={styles.profileText}>User не найден</Text>
+							<Text style={styles.profileText}>User not found</Text>
 						)}
 					</TouchableOpacity>
 				</View>

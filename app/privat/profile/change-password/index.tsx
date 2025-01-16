@@ -33,7 +33,7 @@ export default function ChangePassword() {
 	// Обработка смены пароля
 	const onSubmit: SubmitHandler<ChangePasswordForm> = (data) => {
 		if (data.new_password !== data.confirm_password) {
-			Alert.alert('Ошибка', 'Новые пароли не совпадают');
+			Alert.alert('Error', 'The new passwords dont match');
 			return;
 		}
 
@@ -42,12 +42,12 @@ export default function ChangePassword() {
 		dispatch(changePassword(data))
 			.unwrap()
 			.then(() => {
-				Alert.alert('Пароль успешно изменен');
+				Alert.alert('Password changed successfully');
 				reset(); // Сброс формы после успешной смены пароля
 				router.push('/privat/profile');
 			})
 			.catch((error) => {
-				Alert.alert('Ошибка', error || 'Ошибка при смене пароля');
+				Alert.alert('Error', error || 'Error when changing the password');
 			})
 			.finally(() => {
 				setIsLoading(false); // ✅ Скрываем лоадер после завершения запроса
@@ -62,28 +62,28 @@ export default function ChangePassword() {
 			<Input
 				name="old_password"
 				control={control}
-				placeholder="Введите текущий пароль"
+				placeholder="Enter your current password"
 				isPassword
-				rules={{ required: 'Текущий пароль обязателен' }}
+				rules={{ required: 'The current password is required' }}
 			/>
 
 			<Input
 				name="new_password"
 				control={control}
-				placeholder="Введите новый пароль"
+				placeholder="Enter a new password"
 				isPassword
 				rules={{
-					required: 'Новый пароль обязателен',
-					minLength: { value: 8, message: 'Пароль должен содержать минимум 8 символов' },
+					required: 'A new password is required',
+					minLength: { value: 8, message: 'The password must contain at least 8 characters.' },
 				}}
 			/>
 
 			<Input
 				name="confirm_password"
 				control={control}
-				placeholder="Подтвердите новый пароль"
+				placeholder="Confirm the new password"
 				isPassword
-				rules={{ required: 'Подтверждение пароля обязательно' }}
+				rules={{ required: 'Password confirmation is required' }}
 			/>
 
 			{/* Если идет загрузка, показываем лоадер */}
@@ -93,11 +93,11 @@ export default function ChangePassword() {
 				// Кнопки на одном уровне
 				<View style={styles.buttonRow}>
 					<TouchableOpacity onPress={handleSubmit(onSubmit)} style={styles.saveButton}>
-						<Text style={styles.saveButtonText}>Сменить пароль</Text>
+						<Text style={styles.saveButtonText}>Change password</Text>
 					</TouchableOpacity>
 
 					<TouchableOpacity onPress={() => router.back()} style={styles.cancelButton}>
-						<Text style={styles.cancelButtonText}>Отмена</Text>
+						<Text style={styles.cancelButtonText}>Cancel</Text>
 					</TouchableOpacity>
 				</View>
 			)}

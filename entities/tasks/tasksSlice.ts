@@ -20,7 +20,7 @@ export const createTask = createAsyncThunk<Task, TaskCreationPayload, { rejectVa
 			return response.data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка создания задачи');
+				return rejectWithValue(error.response?.data?.message || 'Issue creation error');
 			}
 			throw error;
 		}
@@ -36,7 +36,7 @@ export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: string }
 			return response.data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка получения задач');
+				return rejectWithValue(error.response?.data?.message || 'Error receiving tasks');
 			}
 			throw error;
 		}
@@ -51,7 +51,7 @@ export const deleteTask = createAsyncThunk<void, number, { rejectValue: string }
 			await axiosInstance.delete(API.delete_task(id));
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка удаления задачи');
+				return rejectWithValue(error.response?.data?.message || 'Issue deletion error');
 			}
 			throw error;
 		}
@@ -69,7 +69,7 @@ export const updateTask = createAsyncThunk<
 		return response.data;
 	} catch (error) {
 		if (error instanceof AxiosError) {
-			return rejectWithValue(error.response?.data?.message || 'Ошибка обновления задачи');
+			return rejectWithValue(error.response?.data?.message || 'Issue update error');
 		}
 		throw error;
 	}
@@ -97,7 +97,7 @@ const tasksSlice = createSlice({
 			})
 			.addCase(createTask.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload ?? 'Неизвестная ошибка';
+				state.error = action.payload ?? 'Unknown error';
 			})
 
 			// ✅ Обработка получения списка задач
@@ -111,7 +111,7 @@ const tasksSlice = createSlice({
 			})
 			.addCase(fetchTasks.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload ?? 'Неизвестная ошибка';
+				state.error = action.payload ?? 'Unknown error';
 			})
 
 			// ✅ Обработка удаления задачи
@@ -125,7 +125,7 @@ const tasksSlice = createSlice({
 			})
 			.addCase(deleteTask.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload ?? 'Неизвестная ошибка';
+				state.error = action.payload ?? 'Unknown error';
 			})
 
 			// ✅ Обработка редактирования задачи
@@ -142,7 +142,7 @@ const tasksSlice = createSlice({
 			})
 			.addCase(updateTask.rejected, (state, action) => {
 				state.isLoading = false;
-				state.error = action.payload ?? 'Неизвестная ошибка';
+				state.error = action.payload ?? 'Unknown error';
 			});
 	},
 });

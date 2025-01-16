@@ -21,7 +21,7 @@ const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({ visible, onClose, id,
 			await dispatch(deleteTask(id)).unwrap();
 			onClose(); // Закрываем модалку после успешного удаления
 		} catch (error) {
-			console.error('❌ Ошибка удаления задачи:', error);
+			console.error('❌ Issue deletion error:', error);
 		}
 	};
 
@@ -29,15 +29,15 @@ const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({ visible, onClose, id,
 		<Modal visible={visible} animationType="slide" transparent={true}>
 			<View style={styles.overlay}>
 				<View style={styles.modalContent}>
-					<Text style={styles.title}>Удаление задачи</Text>
+					<Text style={styles.title}>Deleting an issue</Text>
 					<Text style={styles.description}>
-						Вы уверены, что хотите удалить задачу "{taskTitle}"?
+						Are you sure you want to delete the issue? "{taskTitle}"?
 					</Text>
 					<TouchableOpacity onPress={handleDeleteTask} style={styles.deleteButton}>
-						<Text style={styles.buttonText}>Удалить</Text>
+						<Text style={styles.buttonText}>Remove</Text>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={onClose} style={styles.cancelButton}>
-						<Text style={styles.cancelButtonText}>Отмена</Text>
+						<Text style={styles.cancelButtonText}>Cancel</Text>
 					</TouchableOpacity>
 				</View>
 			</View>

@@ -35,12 +35,12 @@ export default function CreateOrganizationPage() {
 		setIsLoading(true);
 		try {
 			await dispatch(createOrganization(data)).unwrap();
-			Alert.alert('Успех!', 'Организация успешно создана.');
+			Alert.alert('Success!', 'The organization has been successfully established.');
 			reset();
 		} catch (err) {
 			const errorMessage =
-				(err as { message?: string }).message || 'Не удалось создать организацию.';
-			Alert.alert('Ошибка!', errorMessage);
+				(err as { message?: string }).message || 'Couldnt create an organization.';
+			Alert.alert('Mistake!', errorMessage);
 		} finally {
 			setIsLoading(false);
 		}
@@ -48,22 +48,23 @@ export default function CreateOrganizationPage() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Создание организации</Text>
+			<Text style={styles.title}>Creating an organization</Text>
 			<Text style={styles.description}>
-				Придумайте название своей организации и после этого Вы сможете управлять и создавать задачки
-				для себя
+			    Come up with the name of your organization and after 
+				that you will be able to manage and create tasks.
+			    for myself
 			</Text>
 			<View style={styles.form}>
 				<Input
-					placeholder="Название организации"
+					placeholder="Name of the organization"
 					name="name"
 					control={control}
-					rules={{ required: 'Название обязательно' }}
+					rules={{ required: 'The name is required' }}
 				/>
 				{isLoading ? (
 					<ActivityIndicator size="large" color={COLORS.primary} />
 				) : (
-					<Button text="Создать организацию" onPress={handleSubmit(onSubmit)} />
+					<Button text="Create an organization" onPress={handleSubmit(onSubmit)} />
 				)}
 			</View>
 		</View>

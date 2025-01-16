@@ -20,7 +20,7 @@ export const createOrganization = createAsyncThunk(
 			return response.data; // Возвращаем данные о созданной организации
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
-				return rejectWithValue(error.response?.data?.message || 'Ошибка создания организации');
+				return rejectWithValue(error.response?.data?.message || 'Organization creation error');
 			}
 			throw error;
 		}
@@ -43,7 +43,7 @@ export const fetchOrganization = createAsyncThunk(
 		} catch (error) {
 			// ✅ Если получили ошибку 401 (Unauthorized), перехватываем её и обрабатываем
 			if (axios.isAxiosError(error) && error.response?.status === 401) {
-				return rejectWithValue('Ошибка авторизации. Пожалуйста, войдите снова.');
+				return rejectWithValue('Authorization error. Please log in again.');
 			}
 			throw error;
 		}

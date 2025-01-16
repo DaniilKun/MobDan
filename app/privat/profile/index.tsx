@@ -41,11 +41,11 @@ export default function Profile() {
 		dispatch(deleteUser())
 			.unwrap()
 			.then(() => {
-				alert('Аккаунт успешно удален');
+				alert('Account successfully deleted');
 				router.replace('/login');
 			})
 			.catch((error) => {
-				alert(`Ошибка удаления аккаунта: ${error}`);
+				alert(`Account deletion error: ${error}`);
 			});
 	};
 
@@ -54,10 +54,10 @@ export default function Profile() {
 		dispatch(updateUser({ username, email }))
 			.unwrap()
 			.then(() => {
-				alert('Профиль успешно обновлен');
+				alert('Profile has been successfully updated');
 			})
 			.catch((error) => {
-				alert(`Ошибка обновления профиля: ${error}`);
+				alert(`Profile update error: ${error}`);
 			});
 	};
 
@@ -71,21 +71,21 @@ export default function Profile() {
 			{/* Аватар и имя пользователя */}
 			<View style={styles.profileContainer}>
 				<Image source={require('@/assets/images/Profile.png')} style={styles.profileIcon} />
-				<Text style={styles.username}>{user?.username || 'Имя не найдено'}</Text>
+				<Text style={styles.username}>{user?.username || 'Name not found'}</Text>
 			</View>
 
 			{/* Информация о пользователе */}
 			<View style={styles.infoContainer}>
 				<Text style={styles.infoLabel}>Email:</Text>
-				<Text style={styles.infoValue}>{user?.email || 'Email не найден'}</Text>
+				<Text style={styles.infoValue}>{user?.email || 'Email not found'}</Text>
 
 				<Text style={styles.infoLabel}>Username:</Text>
-				<Text style={styles.infoValue}>{user?.username || 'Имя не найдено'}</Text>
+				<Text style={styles.infoValue}>{user?.username || 'Name not found'}</Text>
 			</View>
 
 			{/* Кнопка редактирования профиля */}
 			<TouchableOpacity onPress={() => setEditModalVisible(true)} style={styles.editButton}>
-				<Text style={styles.editButtonText}>Редактировать профиль</Text>
+				<Text style={styles.editButtonText}>Edit Profile</Text>
 			</TouchableOpacity>
 
 			{/* Кнопка смены пароля */}
@@ -93,7 +93,7 @@ export default function Profile() {
 				onPress={() => router.push('/privat/profile/change-password')}
 				style={styles.passwordButton}
 			>
-				<Text style={styles.passwordButtonText}>Сменить пароль</Text>
+				<Text style={styles.passwordButtonText}>Change password</Text>
 			</TouchableOpacity>
 
 			{/* Кнопка выхода */}
@@ -103,7 +103,7 @@ export default function Profile() {
 
 			{/* Кнопка удаления аккаунта */}
 			<TouchableOpacity onPress={() => setDeleteModalVisible(true)} style={styles.deleteButton}>
-				<Text style={styles.deleteButtonText}>Удалить аккаунт</Text>
+				<Text style={styles.deleteButtonText}>Delete an account</Text>
 			</TouchableOpacity>
 
 			{/* Модалки */}
@@ -115,8 +115,8 @@ export default function Profile() {
 
 			<LogoutConfirmationModal
 				visible={isDeleteModalVisible}
-				title="Вы уверены, что хотите удалить аккаунт?"
-				description="Это действие нельзя отменить."
+				title="Are you sure you want to delete your account?"
+				description="This action cannot be canceled."
 				onConfirm={handleDeleteUser}
 				onCancel={() => setDeleteModalVisible(false)}
 			/>
@@ -237,3 +237,4 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.semibold,
 	},
 });
+Даник, Удали Console log везде, и сделай const, как сделал я, в одном из твоих модулей :)

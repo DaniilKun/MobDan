@@ -28,10 +28,10 @@ const Login = () => {
 	const onSubmit: SubmitHandler<ILoginRequest> = async (data) => {
 		try {
 			const result = await dispatch(login(data)).unwrap();
-			console.log('✅ Авторизация успешна:', result);
+			console.log('✅ Authorization is successful:', result);
 			router.replace('/privat');
 		} catch (err) {
-			console.error('❌ Ошибка авторизации:', err);
+			console.error('❌ Authorization error:', err);
 		}
 	};
 
@@ -52,18 +52,18 @@ const Login = () => {
 								name="username"
 								control={control}
 								placeholder="Username"
-								rules={{ required: 'Имя пользователя обязательно' }}
+								rules={{ required: 'The user name is required' }}
 							/>
 							<Input
 								name="password"
 								control={control}
 								placeholder="Password"
 								isPassword
-								rules={{ required: 'Пароль обязателен' }}
+								rules={{ required: 'A password is required' }}
 							/>
 							<Button text="Войти" onPress={handleSubmit(onSubmit)} />
 						</View>
-						<CustomLink href="/registration" text="Нет аккаунта? Создать..." />
+						<CustomLink href="/registration" text="No account? To create..." />
 					</>
 				)}
 			</View>

@@ -26,7 +26,7 @@ axiosInstance.interceptors.request.use(
 			config.headers.Authorization = `Bearer ${token}`;
 		}
 
-		console.log('🔍 Используем токен для запроса:', token);
+		console.log('🔍 Using the token for the request:', token);
 		return config;
 	},
 	(error) => Promise.reject(error),
@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
 					return axiosInstance(originalRequest);
 				}
 			} catch (refreshError) {
-				console.error('❌ Ошибка обновления токена:', refreshError);
+				console.error('❌ Token update error:', refreshError);
 				return Promise.reject(refreshError);
 			}
 		}
