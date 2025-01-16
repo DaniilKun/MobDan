@@ -20,9 +20,7 @@ export const fetchUser = createAsyncThunk<User, void, { rejectValue: string }>(
 			return response.data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(
-					error.response?.data?.message || 'Error when receiving user data',
-				);
+				return rejectWithValue(error.response?.data?.message || 'Error when receiving user data');
 			}
 			throw error;
 		}
@@ -53,9 +51,7 @@ export const updateUser = createAsyncThunk<User, Partial<User>, { rejectValue: s
 			return response.data;
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				return rejectWithValue(
-					error.response?.data?.message || 'Error when updating the user',
-				);
+				return rejectWithValue(error.response?.data?.message || 'Error when updating the user');
 			}
 			throw error;
 		}

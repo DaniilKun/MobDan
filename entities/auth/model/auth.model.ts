@@ -21,12 +21,12 @@ export interface AuthState {
 	access_token: string | null;
 	refresh_token: string | null;
 	isLoading: boolean;
-	error: string | null;
+	error: string | Record<string, string[]> | null;
 }
 
 // Типизация состояния registration
 export interface RegistrationState {
 	message: string;
 	isLoading: boolean;
-	error: string | null;
+	error: string | Record<string, string[]> | null; // Добавляем поддержку объекта ошибок
 }

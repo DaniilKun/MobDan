@@ -1,3 +1,3 @@
 export interface ErrorNotificationProps {
-	error?: string | null;
+	error?: string | Record<string, string[]> | null;
 }

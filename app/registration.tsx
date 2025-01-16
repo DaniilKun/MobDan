@@ -8,6 +8,7 @@ import { registration } from '@/entities/auth/model/registrationSlice';
 import Input from '@/shared/input/Input';
 import ErrorNotification from '@/shared/errorNotification/ErrorNotification';
 import CustomLink from '@/shared/customLink/CustomLink';
+import { useRouter } from 'expo-router';
 
 interface RegistrationForm {
 	username: string;
@@ -16,6 +17,7 @@ interface RegistrationForm {
 }
 
 const Registration = () => {
+	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
 	const { isLoading, error, message } = useSelector((state: RootState) => state.registration);
 
@@ -33,20 +35,23 @@ const Registration = () => {
 	// ✅ Обработка отправки формы
 	const onSubmit: SubmitHandler<RegistrationForm> = async (data) => {
 		try {
-			console.log('📤 Отправка данных формы:', data);
-			const response = await dispatch(registration(data)).unwrap();
-			console.log('✅ Регистрация успешна:', response);
-			console.log('message error:', message);
+			await dispatch(registration(data)).unwrap();
 			reset(); // Сброс формы
+			await setTimeout(() => {
+				router.replace('/login');
+			}, 1000);
 		} catch (error) {
 			console.error('❌ Ошибка регистрации:', error);
-			console.log('message error:', message);
 		}
 	};
+	// if (condition) {
+	// }
 
 	return (
 		<View style={styles.container}>
+			{/* Компонент для отображения ошибок */}
 			<ErrorNotification error={error} />
+			{/* Сообщение об успехе */}
 			{message && <Text style={styles.successMessage}>{message}</Text>}
 
 			<View style={styles.content}>
@@ -131,7 +136,6 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		alignItems: 'center',
-		// gap: GAPS.g50,
 	},
 	logo: {
 		alignItems: 'center',
