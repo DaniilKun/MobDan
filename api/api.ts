@@ -15,7 +15,6 @@ export const API = {
 	delete_user_me: `${PREFIX}/user/me/delete/`,
 	forgot_password: `${PREFIX}/user/password-reset/`,
 
-	// ✅ Динамический URL для удаления задачи
 	delete_task: (id: number) => `${PREFIX}/tasks/${id}/delete/`,
 	update_task: (id: number) => `${PREFIX}/tasks/${id}/edit/`,
 };

@@ -1,23 +1,21 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Organization, UserState } from './organization.model';
 import { API } from '@/api/api';
-import axiosInstance from '@/api/axiosInstance'; // ✅ Правильный импорт axiosInstance
+import axiosInstance from '@/api/axiosInstance';
 import axios from 'axios';
 
-// Начальное состояние
 const initialState: UserState = {
 	organization: null,
 	isLoading: false,
 	error: null,
 };
 
-// ✅ Асинхронный thunk для создания организации
 export const createOrganization = createAsyncThunk(
 	'user/createOrganization',
 	async (organizationData: { name: string }, { rejectWithValue }) => {
 		try {
 			const response = await axiosInstance.post(API.create_organization, organizationData);
-			return response.data; // Возвращаем данные о созданной организации
+			return response.data;
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				return rejectWithValue(error.response?.data?.message || 'Organization creation error');
@@ -27,21 +25,18 @@ export const createOrganization = createAsyncThunk(
 	},
 );
 
-// ✅ Асинхронный thunk для получения существующей организации
 export const fetchOrganization = createAsyncThunk(
 	'user/fetchOrganization',
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axiosInstance.get(API.list_organization);
 
-			// Проверяем, есть ли организации
 			if (response.data.length > 0) {
-				return response.data[0]; // Возвращаем первую организацию
+				return response.data[0];
 			} else {
-				return null; // Если организаций нет, возвращаем null
+				return null;
 			}
 		} catch (error) {
-			// ✅ Если получили ошибку 401 (Unauthorized), перехватываем её и обрабатываем
 			if (axios.isAxiosError(error) && error.response?.status === 401) {
 				return rejectWithValue('Authorization error. Please log in again.');
 			}
@@ -50,7 +45,6 @@ export const fetchOrganization = createAsyncThunk(
 	},
 );
 
-// ✅ Создаем slice
 const userSlice = createSlice({
 	name: 'user',
 	initialState,
@@ -64,7 +58,6 @@ const userSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			// ✅ Обработка создания организации
 			.addCase(createOrganization.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -77,7 +70,6 @@ const userSlice = createSlice({
 				state.isLoading = false;
 				state.error = action.payload as string;
 			})
-			// ✅ Обработка получения организации
 			.addCase(fetchOrganization.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;

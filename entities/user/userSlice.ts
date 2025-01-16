@@ -4,14 +4,12 @@ import { User, UserState, PasswordChangePayload } from './user.model';
 import axiosInstance from '@/api/axiosInstance';
 import { AxiosError } from 'axios';
 
-// Начальное состояние
 const initialState: UserState = {
 	user: null,
 	isLoading: false,
 	error: null,
 };
 
-// ✅ Thunk для получения текущего пользователя
 export const fetchUser = createAsyncThunk<User, void, { rejectValue: string }>(
 	'user/fetchUser',
 	async (_, { rejectWithValue }) => {
@@ -27,7 +25,6 @@ export const fetchUser = createAsyncThunk<User, void, { rejectValue: string }>(
 	},
 );
 
-// ✅ Thunk для удаления пользователя
 export const deleteUser = createAsyncThunk<void, void, { rejectValue: string }>(
 	'user/deleteUser',
 	async (_, { rejectWithValue }) => {
@@ -42,7 +39,6 @@ export const deleteUser = createAsyncThunk<void, void, { rejectValue: string }>(
 	},
 );
 
-// ✅ Thunk для редактирования пользователя
 export const updateUser = createAsyncThunk<User, Partial<User>, { rejectValue: string }>(
 	'user/updateUser',
 	async (updatedData, { rejectWithValue }) => {
@@ -58,7 +54,6 @@ export const updateUser = createAsyncThunk<User, Partial<User>, { rejectValue: s
 	},
 );
 
-// ✅ Thunk для изменения пароля
 export const changePassword = createAsyncThunk<
 	void,
 	PasswordChangePayload,
@@ -74,7 +69,6 @@ export const changePassword = createAsyncThunk<
 	}
 });
 
-// ✅ Thunk для восстановления пароля
 export const forgotPassword = createAsyncThunk<void, { email: string }, { rejectValue: string }>(
 	'user/forgotPassword',
 	async ({ email }, { rejectWithValue }) => {
@@ -89,7 +83,6 @@ export const forgotPassword = createAsyncThunk<void, { email: string }, { reject
 	},
 );
 
-// ✅ Создаем slice
 const userSlice = createSlice({
 	name: 'user',
 	initialState,
@@ -99,7 +92,6 @@ const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		// ✅ Обработка получения текущего пользователя
 		builder
 			.addCase(fetchUser.pending, (state) => {
 				state.isLoading = true;
@@ -114,7 +106,6 @@ const userSlice = createSlice({
 				state.error = action.payload || 'Unknown error';
 			})
 
-			// ✅ Обработка удаления пользователя
 			.addCase(deleteUser.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -128,7 +119,6 @@ const userSlice = createSlice({
 				state.error = action.payload || 'Unknown error';
 			})
 
-			// ✅ Обработка редактирования пользователя
 			.addCase(updateUser.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -142,7 +132,6 @@ const userSlice = createSlice({
 				state.error = action.payload || 'Unknown error';
 			})
 
-			// ✅ Обработка изменения пароля
 			.addCase(changePassword.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -155,7 +144,6 @@ const userSlice = createSlice({
 				state.isLoading = false;
 				state.error = action.payload || 'Password change error';
 			})
-			// ✅ Обработка восстановления пароля
 			.addCase(forgotPassword.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -170,7 +158,6 @@ const userSlice = createSlice({
 	},
 });
 
-// ✅ Экспортируем actions и reducer
 export const { clearUserData } = userSlice.actions;
 
 export default userSlice.reducer;

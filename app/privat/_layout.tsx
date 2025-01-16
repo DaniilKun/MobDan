@@ -16,28 +16,23 @@ export default function AuthLayout() {
 	const username = useSelector((state: RootState) => state.user.user?.username);
 	const { isLoading } = useSelector((state: RootState) => state.organization);
 
-	// ✅ Если токен отсутствует, перенаправляем на страницу логина
 	useEffect(() => {
 		if (!access_token) {
 			router.replace('/login');
 		}
 	}, [access_token]);
 
-	// ✅ Загружаем статусы задач при первом рендере
 	useEffect(() => {
 		dispatch(fetchStatuses());
 		dispatch(fetchUser());
 	}, [dispatch]);
 
-	// ✅ Обработчик перехода на страницу профиля
 	const handleProfilePress = () => {
 		router.push('/privat/profile');
 	};
 
-	// ✅ Проверяем текущий маршрут и скрываем хедер на странице профиля
 	const isProfilePage = segments.join('/') === 'privat/profile';
 
-	// ✅ Если идет загрузка организации, показываем лоадер
 	if (isLoading) {
 		return (
 			<View style={styles.loadingContainer}>
@@ -47,7 +42,6 @@ export default function AuthLayout() {
 		);
 	}
 
-	// ✅ Если токен отсутствует, показываем сообщение о перенаправлении на страницу входа
 	if (!access_token) {
 		return (
 			<View style={styles.loadingContainer}>
@@ -58,10 +52,8 @@ export default function AuthLayout() {
 
 	return (
 		<View style={styles.container}>
-			{/* Хедер с названием организации и кнопкой выхода */}
 			{!isProfilePage && (
 				<View style={styles.header}>
-					{/* ✅ Добавляем TouchableOpacity вокруг иконки профиля */}
 					<TouchableOpacity onPress={handleProfilePress} style={styles.profile}>
 						<Image source={require('@/assets/images/Profile.png')} style={styles.profileIcon} />
 						{username ? (
@@ -72,8 +64,6 @@ export default function AuthLayout() {
 					</TouchableOpacity>
 				</View>
 			)}
-
-			{/* Основное содержимое */}
 			<Slot />
 		</View>
 	);

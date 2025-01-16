@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { View, Text, StyleSheet, Image, Alert, TouchableOpacity } from 'react-native';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -24,22 +25,19 @@ const ForgotPassword = () => {
 		},
 	});
 
-	// Обработка отправки формы
 	const onSubmit: SubmitHandler<ForgotPasswordForm> = async (data) => {
 		try {
-			console.log('📧 Email для восстановления:', data.email); // Лог для проверки
 			await dispatch(forgotPassword({ email: data.email })).unwrap();
 			Alert.alert('The email has been sent.');
-			reset(); // Сброс формы после успешной отправки
+			reset();
 			router.replace('/login');
-		} catch (err) {
-			console.error('❌ Password recovery error:', err);
+		} catch (error) {
+			/* empty */
 		}
 	};
 
 	return (
 		<View style={styles.container}>
-			{/* Показываем уведомление об ошибке */}
 			<ErrorNotification error={error} />
 
 			<TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
@@ -55,7 +53,6 @@ const ForgotPassword = () => {
 					and an SMS will be sent there.
 				</Text>
 				<View style={styles.form}>
-					{/* Поле ввода email */}
 					<Input
 						name="email"
 						control={control}
@@ -69,11 +66,10 @@ const ForgotPassword = () => {
 						}}
 					/>
 
-					{/* Кнопка отправки */}
 					<Button
 						text={isLoading ? 'Submitting...' : 'Submit'}
 						onPress={handleSubmit(onSubmit)}
-						disabled={isLoading} // Блокируем кнопку, если идет запрос
+						disabled={isLoading}
 					/>
 				</View>
 			</View>

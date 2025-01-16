@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ILoginRequest } from '@/entities/auth/model/auth.model';
 import Button from '@/shared/button/Button';
 import CustomLink from '@/shared/customLink/CustomLink';
@@ -28,10 +29,9 @@ const Login = () => {
 	const onSubmit: SubmitHandler<ILoginRequest> = async (data) => {
 		try {
 			const result = await dispatch(login(data)).unwrap();
-			console.log('✅ Authorization is successful:', result);
 			router.replace('/privat');
-		} catch (err) {
-			console.error('❌ Authorization error:', err);
+		} catch (error) {
+			/* empty */
 		}
 	};
 
@@ -62,7 +62,6 @@ const Login = () => {
 								rules={{ required: 'A password is required' }}
 							/>
 
-							{/* Ссылка на страницу восстановления пароля */}
 							<TouchableOpacity onPress={() => router.push('/forgot-password')}>
 								<Text style={styles.forgotPassword}>Forgot your password?</Text>
 							</TouchableOpacity>

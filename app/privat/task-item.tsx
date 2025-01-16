@@ -17,18 +17,14 @@ interface TaskItemProps {
 const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, statusId }) => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const router = useRouter();
-	// Получаем задачу из Redux-стора
 	const task = useSelector((state: RootState) =>
 		state.tasks.tasks.find((t) => t.id === Number(id)),
 	);
-	// Получаем список статусов из Redux-стора
 	const statuses = useSelector((state: RootState) => state.status.statuses);
 
-	// Находим название статуса по ID
 	const statusName =
 		statuses.find((s) => s.status_task[0] === task?.status_task)?.status_task[1] ||
 		'Unknown status';
-	// ✅ Обработчик клика на задачу для перехода на страницу деталей
 	const handleTaskPress = () => {
 		router.push(`/privat/task/${id}`);
 	};
@@ -36,13 +32,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, statusId })
 	return (
 		<TouchableOpacity onPress={handleTaskPress} style={styles.taskItem}>
 			<View style={styles.taskContent}>
-				{/* Текстовый блок */}
 				<View style={styles.textBlock}>
-					{/* ✅ Ограничение заголовка до 2 строк с многоточием */}
 					<Text style={styles.taskTitle} numberOfLines={2} ellipsizeMode="tail">
 						{title}
 					</Text>
-					{/* ✅ Ограничение описания до 4 строк с многоточием */}
 					{description && (
 						<Text style={styles.taskDescription} numberOfLines={4} ellipsizeMode="tail">
 							{description}
@@ -50,17 +43,14 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, statusId })
 					)}
 				</View>
 
-				{/* Статус и кнопка удаления */}
 				<View style={styles.statusContainer}>
 					<StatusBadge statusId={statusId} statusName={statusName} />
-					{/* ✅ Используем StatusBadge */}
 					<TouchableOpacity onPress={() => setModalVisible(true)} style={styles.deleteButton}>
 						<Image source={require('@/assets/images/delete.png')} style={styles.deleteIcon} />
 					</TouchableOpacity>
 				</View>
 			</View>
 
-			{/* Модалка подтверждения удаления */}
 			<DeleteTaskModal
 				visible={isModalVisible}
 				onClose={() => setModalVisible(false)}

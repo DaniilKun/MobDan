@@ -14,23 +14,18 @@ interface OrganizationForm {
 }
 
 export default function CreateOrganizationPage() {
-	// Проверка авторизации
 	useAuthCheck();
 
-	// Используем Redux Dispatch
 	const dispatch = useDispatch<AppDispatch>();
 
-	// Локальное состояние загрузки
 	const [isLoading, setIsLoading] = useState(false);
 
-	// Инициализация формы
 	const { control, handleSubmit, reset } = useForm<OrganizationForm>({
 		defaultValues: {
 			name: '',
 		},
 	});
 
-	// Обработка отправки формы
 	const onSubmit: SubmitHandler<OrganizationForm> = async (data) => {
 		setIsLoading(true);
 		try {
@@ -50,9 +45,8 @@ export default function CreateOrganizationPage() {
 		<View style={styles.container}>
 			<Text style={styles.title}>Creating an organization</Text>
 			<Text style={styles.description}>
-			    Come up with the name of your organization and after 
-				that you will be able to manage and create tasks.
-			    for myself
+				Come up with the name of your organization and after that you will be able to manage and
+				create tasks. for myself
 			</Text>
 			<View style={styles.form}>
 				<Input

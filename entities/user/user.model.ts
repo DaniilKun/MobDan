@@ -1,4 +1,3 @@
-// Типы для пользователя
 export interface User {
 	id: number;
 	username: string;

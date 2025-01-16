@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,16 +16,11 @@ export function useAuthCheck() {
 	const access_token = useSelector((state: RootState) => state.auth.access_token);
 
 	useEffect(() => {
-		console.log('🔎 Хук useAuthCheck вызван');
-		console.log('Текущий токен:', access_token);
-
 		if (access_token === null) {
-			console.log('⚠️ Токен еще не загружен');
 			return;
 		}
 
 		if (!access_token) {
-			console.log('❌ Токен отсутствует. Редирект на /login');
 			router.replace('/login');
 			return;
 		}
@@ -36,17 +32,14 @@ export function useAuthCheck() {
 			const expirationTime = decoded.exp * 1000;
 
 			if (expirationTime - currentTime < 60 * 1000) {
-				console.log('⏳ Токен скоро истечет. Обновляем токен.');
 				dispatch(refreshToken());
 			}
 
 			if (expirationTime < currentTime) {
-				console.log('❌ Токен истек. Выполняем выход.');
 				dispatch(logout());
 				router.replace('/login');
 			}
 		} catch (error) {
-			console.error('❌ Ошибка при декодировании токена:', error);
 			dispatch(logout());
 			router.replace('/login');
 		}

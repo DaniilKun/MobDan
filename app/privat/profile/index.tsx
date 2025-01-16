@@ -13,10 +13,8 @@ export default function Profile() {
 	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
 
-	// Получаем данные пользователя из Redux
 	const user = useSelector((state: RootState) => state.user.user);
 
-	// Локальное состояние для управления модалками
 	const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
 	const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 	const [isEditModalVisible, setEditModalVisible] = useState(false);
@@ -25,18 +23,15 @@ export default function Profile() {
 		dispatch(fetchUser());
 	}, [dispatch]);
 
-	// Обработка возврата назад
 	const handleGoBack = () => {
 		router.back();
 	};
 
-	// Обработка выхода из учетной записи
 	const handleLogout = () => {
 		dispatch(logout());
 		router.replace('/login');
 	};
 
-	// Обработка удаления пользователя
 	const handleDeleteUser = () => {
 		dispatch(deleteUser())
 			.unwrap()
@@ -49,7 +44,6 @@ export default function Profile() {
 			});
 	};
 
-	// Обработка сохранения изменений профиля
 	const handleSaveChanges = (username: string, email: string) => {
 		dispatch(updateUser({ username, email }))
 			.unwrap()
@@ -63,18 +57,15 @@ export default function Profile() {
 
 	return (
 		<View style={styles.container}>
-			{/* Кнопка назад */}
 			<TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
 				<Text style={styles.backButtonText}>← Назад</Text>
 			</TouchableOpacity>
 
-			{/* Аватар и имя пользователя */}
 			<View style={styles.profileContainer}>
 				<Image source={require('@/assets/images/Profile.png')} style={styles.profileIcon} />
 				<Text style={styles.username}>{user?.username || 'Name not found'}</Text>
 			</View>
 
-			{/* Информация о пользователе */}
 			<View style={styles.infoContainer}>
 				<Text style={styles.infoLabel}>Email:</Text>
 				<Text style={styles.infoValue}>{user?.email || 'Email not found'}</Text>
@@ -83,12 +74,10 @@ export default function Profile() {
 				<Text style={styles.infoValue}>{user?.username || 'Name not found'}</Text>
 			</View>
 
-			{/* Кнопка редактирования профиля */}
 			<TouchableOpacity onPress={() => setEditModalVisible(true)} style={styles.editButton}>
 				<Text style={styles.editButtonText}>Edit Profile</Text>
 			</TouchableOpacity>
 
-			{/* Кнопка смены пароля */}
 			<TouchableOpacity
 				onPress={() => router.push('/privat/profile/change-password')}
 				style={styles.passwordButton}
@@ -96,17 +85,14 @@ export default function Profile() {
 				<Text style={styles.passwordButtonText}>Change password</Text>
 			</TouchableOpacity>
 
-			{/* Кнопка выхода */}
 			<TouchableOpacity onPress={() => setLogoutModalVisible(true)} style={styles.logoutButton}>
 				<Text style={styles.logoutButtonText}>EXIT</Text>
 			</TouchableOpacity>
 
-			{/* Кнопка удаления аккаунта */}
 			<TouchableOpacity onPress={() => setDeleteModalVisible(true)} style={styles.deleteButton}>
 				<Text style={styles.deleteButtonText}>Delete an account</Text>
 			</TouchableOpacity>
 
-			{/* Модалки */}
 			<LogoutConfirmationModal
 				visible={isLogoutModalVisible}
 				onConfirm={handleLogout}

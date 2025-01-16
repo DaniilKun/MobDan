@@ -4,14 +4,12 @@ import { API } from '@/api/api';
 import { Task, TaskCreationPayload, TasksState, TaskUpdate } from './tasks.model';
 import { AxiosError } from 'axios';
 
-// Начальное состояние
 const initialState: TasksState = {
 	tasks: [],
 	isLoading: false,
 	error: null,
 };
 
-// ✅ Thunk для создания задачи
 export const createTask = createAsyncThunk<Task, TaskCreationPayload, { rejectValue: string }>(
 	'tasks/createTask',
 	async (taskData, { rejectWithValue }) => {
@@ -27,7 +25,6 @@ export const createTask = createAsyncThunk<Task, TaskCreationPayload, { rejectVa
 	},
 );
 
-// ✅ Thunk для получения списка задач
 export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: string }>(
 	'tasks/fetchTasks',
 	async (_, { rejectWithValue }) => {
@@ -43,7 +40,6 @@ export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: string }
 	},
 );
 
-// ✅ Thunk для удаления задачи
 export const deleteTask = createAsyncThunk<void, number, { rejectValue: string }>(
 	'tasks/deleteTask',
 	async (id, { rejectWithValue }) => {
@@ -58,7 +54,6 @@ export const deleteTask = createAsyncThunk<void, number, { rejectValue: string }
 	},
 );
 
-// ✅ Thunk для редактирования задачи
 export const updateTask = createAsyncThunk<
 	Task,
 	{ id: number; taskData: Partial<TaskUpdate> },
@@ -75,7 +70,6 @@ export const updateTask = createAsyncThunk<
 	}
 });
 
-// ✅ Создаем slice
 const tasksSlice = createSlice({
 	name: 'tasks',
 	initialState,
@@ -86,7 +80,6 @@ const tasksSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			// ✅ Обработка создания задачи
 			.addCase(createTask.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -100,7 +93,6 @@ const tasksSlice = createSlice({
 				state.error = action.payload ?? 'Unknown error';
 			})
 
-			// ✅ Обработка получения списка задач
 			.addCase(fetchTasks.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -114,7 +106,6 @@ const tasksSlice = createSlice({
 				state.error = action.payload ?? 'Unknown error';
 			})
 
-			// ✅ Обработка удаления задачи
 			.addCase(deleteTask.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -128,7 +119,6 @@ const tasksSlice = createSlice({
 				state.error = action.payload ?? 'Unknown error';
 			})
 
-			// ✅ Обработка редактирования задачи
 			.addCase(updateTask.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -147,6 +137,5 @@ const tasksSlice = createSlice({
 	},
 });
 
-// ✅ Экспортируем actions и reducer
 export const { clearTasks } = tasksSlice.actions;
 export default tasksSlice.reducer;

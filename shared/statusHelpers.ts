@@ -1,4 +1,3 @@
-// utils/statusHelpers.ts
 import { COLORS } from '@/shared/tokens';
 
 export const getStatusColor = (statusId: number) => {

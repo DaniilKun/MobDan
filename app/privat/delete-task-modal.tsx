@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
 import { COLORS, FONTS, GAPS, RADIUS } from '@/shared/tokens';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store/store';
@@ -15,13 +16,12 @@ interface DeleteTaskModalProps {
 const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({ visible, onClose, id, taskTitle }) => {
 	const dispatch = useDispatch<AppDispatch>();
 
-	// ✅ Обработчик удаления задачи
 	const handleDeleteTask = async () => {
 		try {
 			await dispatch(deleteTask(id)).unwrap();
-			onClose(); // Закрываем модалку после успешного удаления
+			onClose();
 		} catch (error) {
-			console.error('❌ Issue deletion error:', error);
+			/* empty */
 		}
 	};
 
