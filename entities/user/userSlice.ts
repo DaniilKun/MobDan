@@ -138,7 +138,6 @@ const userSlice = createSlice({
 			})
 			.addCase(changePassword.fulfilled, (state) => {
 				state.isLoading = false;
-				alert('Password changed successfully');
 			})
 			.addCase(changePassword.rejected, (state, action) => {
 				state.isLoading = false;
